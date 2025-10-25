@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaminova Labs - Pioneering Digital Transformation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        /* Particle Canvas */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        /* 3D Canvas */
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            cursor: pointer;
+        }
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 20, 60, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00bfff, #1e90ff, #4169e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px #00bfff); }
+            to { filter: drop-shadow(0 0 20px #4169e1); }
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-links li a {
+            color: #fff;
+            transition: color 0.3s;
+        }
+        .nav-links li a:hover {
+            color: #00bfff;
+        }
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle, rgba(0,191,255,0.1) 0%, transparent 70%);
+            position: relative;
+        }
+        .hero-content h1 {
+            font-size: 4rem;
+            background: linear-gradient(45deg, #00bfff, #1e90ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: slideInUp 1s ease-out;
+            z-index: 10;
+            position: relative;
+        }
+        .hero-content p {
+            font-size: 1.5rem;
+            color: #ccc;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: slideInUp 1s ease-out 0.2s both;
+            z-index: 10;
+            position: relative;
+        }
+        @keyframes slideInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            background: linear-gradient(45deg, #00bfff, #1e90ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* 3D Card Styles */
+        .mission-card, .challenge-item, .value-card {
+            perspective: 1000px;
+            height: 100%;
+        }
+        .mission-card-inner, .challenge-inner, .value-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .mission-card:hover .mission-card-inner,
+        .challenge-item:hover .challenge-inner,
+        .value-card:hover .value-inner {
+            transform: rotateY(180deg);
+        }
+        .mission-card-front, .mission-card-back,
+        .challenge-front, .challenge-back,
+        .value-front, .value-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .mission-card-back, .challenge-back, .value-back {
+            transform: rotateY(180deg);
+            background: rgba(0, 20, 60, 0.8);
+            color: #fff;
+        }
+        /* About */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: center;
+        }
+        .about p {
+            font-size: 1.2rem;
+            color: #ddd;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        /* Vision and Mission */
+        .vision, .mission {
+            text-align: center;
+        }
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .mission-card {
+            background: rgba(0, 20, 60, 0.5);
+            border: 1px solid #00bfff;
+            border-radius: 15px;
+            animation: cardSlide 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateX(-50px);
+            height: 300px;
+        }
+        .mission-card:nth-child(1) { animation-delay: 0.1s; }
+        .mission-card:nth-child(2) { animation-delay: 0.2s; }
+        .mission-card:nth-child(3) { animation-delay: 0.3s; }
+        .mission-card:nth-child(4) { animation-delay: 0.4s; }
+        .mission-card:nth-child(5) { animation-delay: 0.5s; }
+        @keyframes cardSlide {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .mission-card h3 {
+            color: #00bfff;
+            margin-bottom: 1rem;
+        }
+        /* Challenges */
+        .challenges {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .challenge-item {
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 5px solid #ff4500;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+            height: 200px;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        /* Approach */
+        .approach {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            text-align: center;
+        }
+        /* Core Values */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .value-card {
+            background: rgba(0, 255, 0, 0.1);
+            border-radius: 10px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        .value-card h3 {
+            color: #00ff00;
+        }
+        /* Future Outlook and Conclusion */
+        .future, .conclusion {
+            text-align: center;
+        }
+        .future-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        .future-list li {
+            background: rgba(0, 255, 127, 0.1);
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+        .future-list li:hover {
+            background: rgba(0, 255, 127, 0.2);
+        }
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            padding: 2rem;
+            color: #ccc;
+            position: relative;
+            z-index: 1;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            section {
+                padding: 3rem 1rem;
+            }
+        }
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="three-canvas"></canvas>
+    <canvas id="particles"></canvas>
+    
+    <header>
+        <nav>
+            <div class="logo">Kaminova Labs</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#vision">Vision</a></li>
+                <li><a href="#mission">Mission</a></li>
+                <li><a href="#challenges">Challenges</a></li>
+                <li><a href="#approach">Approach</a></li>
+                <li><a href="#values">Values</a></li>
+                <li><a href="#future">Future</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Kaminova Labs</h1>
+            <p>Pioneering the Future of Digital Transformation Through Innovation, Trust, and Empowerment</p>
+        </div>
+    </section>
+
+    <section id="about" class="about reveal">
+        <h2 class="section-title">About Kaminova Labs</h2>
+        <p>Kaminova Labs is a multidisciplinary technology innovation company at the forefront of digital transformation. We are dedicated to solving some of the most complex challenges in today’s digital economy through research, product development, consulting, and capacity building.</p>
+        <p>Our work spans across blockchain, artificial intelligence, cybersecurity, digital forensics, and decentralized systems, enabling us to deliver solutions that not only respond to current needs but also anticipate future challenges. We believe technology is more than just tools and code — it is the foundation of progress, transparency, and empowerment in the 21st century.</p>
+        <p>At Kaminova Labs, we combine cutting-edge innovation with human-centered design, ensuring that our solutions address real-world problems with efficiency, scalability, and trust. We work with businesses, governments, institutions, and communities to create platforms, frameworks, and services that foster transparency, accountability, and growth in an increasingly digital and interconnected world.</p>
+        <p>We are not just a company; we are an ecosystem builder. Our vision is to establish Kaminova Labs as a hub where innovators, researchers, entrepreneurs, and industry leaders collaborate to design the technologies that will shape the future of society.</p>
+    </section>
+
+    <section id="vision" class="vision reveal">
+        <h2 class="section-title">Our Vision</h2>
+        <p>Our vision is to be a global catalyst for technological innovation and transformative solutions, driving a future where industries, governments, and communities thrive in a digital-first world.</p>
+        <p>We aim to empower ecosystems through technology that promotes transparency, accountability, and inclusion. By fostering innovation, thought leadership, and collaboration, Kaminova Labs envisions a society where digital transformation leads to economic empowerment, sustainable growth, and improved quality of life for all.</p>
+        <p>We are working toward a future where Africa and the global South are not just consumers of technology but also active contributors to the next generation of breakthroughs. By bridging the gap between research, innovation, and application, we aspire to position ourselves as a global player in shaping the decentralized digital economy.</p>
+    </section>
+
+    <section id="mission" class="mission reveal">
+        <h2 class="section-title">Our Mission</h2>
+        <p>Our mission is built around five key commitments:</p>
+        <div class="mission-grid">
+            <div class="mission-card">
+                <div class="mission-card-inner">
+                    <div class="mission-card-front">
+                        <h3>Driving Innovation in Emerging Technologies</h3>
+                        <p>Lead pioneering research and development in blockchain, AI, cybersecurity, and digital forensics.</p>
+                    </div>
+                    <div class="mission-card-back">
+                        <p>Translate emerging technologies into practical solutions that address security, transparency, and compliance challenges. Build tools and platforms that reshape industries while setting new standards for trust and accountability.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mission-card">
+                <div class="mission-card-inner">
+                    <div class="mission-card-front">
+                        <h3>Providing Expert Consultancy & Advisory Services</h3>
+                        <p>Support businesses, governments, and institutions in navigating digital transformation.</p>
+                    </div>
+                    <div class="mission-card-back">
+                        <p>Offer advisory services on blockchain adoption, cybersecurity strategy, digital forensics, and AI integration. Guide organizations to adopt emerging technologies in ways that align with sustainability, compliance, and long-term growth.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mission-card">
+                <div class="mission-card-inner">
+                    <div class="mission-card-front">
+                        <h3>Capacity Building & Education</h3>
+                        <p>Develop training programs, workshops, and mentorship initiatives.</p>
+                    </div>
+                    <div class="mission-card-back">
+                        <p>Build a talent pipeline equipped with the knowledge and skills to thrive in the digital economy. Foster partnerships with universities, research centers, and communities to expand digital literacy and innovation capacity.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mission-card">
+                <div class="mission-card-inner">
+                    <div class="mission-card-front">
+                        <h3>Promoting Transparency, Governance & Security</h3>
+                        <p>Build platforms that ensure accountability, transparency, and trust.</p>
+                    </div>
+                    <div class="mission-card-back">
+                        <p>Strengthen cybersecurity resilience through advanced solutions in threat detection, risk management, and forensic analysis. Contribute to building secure, ethical, and transparent governance structures in decentralized environments.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mission-card">
+                <div class="mission-card-inner">
+                    <div class="mission-card-front">
+                        <h3>Exploring New Frontiers</h3>
+                        <p>Constantly research, test, and deploy new technologies.</p>
+                    </div>
+                    <div class="mission-card-back">
+                        <p>Position Kaminova Labs as a global partner in shaping the next wave of technological disruption. Invest in collaborations that expand our impact beyond industries to create societal and humanitarian value.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="challenges" class="challenges reveal">
+        <h2 class="section-title">The Challenges We Address</h2>
+        <div class="challenge-item">
+            <div class="challenge-inner">
+                <div class="challenge-front">
+                    <h4>Cybersecurity Threats</h4>
+                    <p>Businesses and governments under attack from cybercriminals.</p>
+                </div>
+                <div class="challenge-back">
+                    <p>The cost of cybercrime continues to rise globally, and Africa remains particularly vulnerable due to gaps in digital infrastructure and awareness.</p>
+                </div>
+            </div>
+        </div>
+        <div class="challenge-item">
+            <div class="challenge-inner">
+                <div class="challenge-front">
+                    <h4>Lack of Transparency</h4>
+                    <p>Corruption, fraud, and weak accountability systems.</p>
+                </div>
+                <div class="challenge-back">
+                    <p>Blockchain and digital forensics can play a critical role in restoring transparency.</p>
+                </div>
+            </div>
+        </div>
+        <div class="challenge-item">
+            <div class="challenge-inner">
+                <div class="challenge-front">
+                    <h4>Compliance and Regulation</h4>
+                    <p>Balancing innovation with regulatory requirements.</p>
+                </div>
+                <div class="challenge-back">
+                    <p>As industries adopt new technologies, compliance with global and local regulations becomes complex. Organizations struggle to balance innovation with regulatory requirements.</p>
+                </div>
+            </div>
+        </div>
+        <div class="challenge-item">
+            <div class="challenge-inner">
+                <div class="challenge-front">
+                    <h4>Talent Gaps</h4>
+                    <p>Shortage of skilled professionals in key technologies.</p>
+                </div>
+                <div class="challenge-back">
+                    <p>Despite rapid digital transformation, there is a shortage of skilled professionals in blockchain, AI, and cybersecurity — leaving industries unprepared for future demands.</p>
+                </div>
+            </div>
+        </div>
+        <div class="challenge-item">
+            <div class="challenge-inner">
+                <div class="challenge-front">
+                    <h4>Digital Divide</h4>
+                    <p>Exclusion from the digital economy.</p>
+                </div>
+                <div class="challenge-back">
+                    <p>Many communities, particularly in Africa, are still excluded from participating fully in the digital economy, which widens inequality and slows progress.</p>
+                </div>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 2rem; color: #ddd;">Kaminova Labs exists to bridge these gaps by creating practical, scalable, and impactful solutions that respond directly to these challenges.</p>
+    </section>
+
+    <section id="approach" class="approach reveal">
+        <h2 class="section-title">Our Approach</h2>
+        <p>What makes Kaminova Labs unique is our multidisciplinary, ecosystem-driven approach.</p>
+        <p>We integrate research and real-world application to ensure that every innovation is not just theoretical but also practical and impactful.</p>
+        <p>We collaborate with governments, private enterprises, and communities, ensuring that our solutions align with both local needs and global standards.</p>
+        <p>We combine technology with education, recognizing that long-term transformation requires knowledge transfer and capacity building.</p>
+        <p>We prioritize trust, ethics, and security, ensuring that innovation is responsible, transparent, and sustainable.</p>
+        <p>This holistic approach positions Kaminova Labs as more than just a tech provider — we are a strategic partner for transformation.</p>
+    </section>
+
+    <section id="values" class="reveal">
+        <h2 class="section-title">Core Values</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-inner">
+                    <div class="value-front">
+                        <h3>Innovation</h3>
+                        <p>Constantly pushing boundaries.</p>
+                    </div>
+                    <div class="value-back">
+                        <p>Constantly pushing boundaries to create solutions that redefine industries.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="value-card">
+                <div class="value-inner">
+                    <div class="value-front">
+                        <h3>Integrity</h3>
+                        <p>Upholding transparency.</p>
+                    </div>
+                    <div class="value-back">
+                        <p>Upholding transparency, accountability, and trust in every action.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="value-card">
+                <div class="value-inner">
+                    <div class="value-front">
+                        <h3>Collaboration</h3>
+                        <p>Working together.</p>
+                    </div>
+                    <div class="value-back">
+                        <p>Working together with partners, communities, and stakeholders for greater impact.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="value-card">
+                <div class="value-inner">
+                    <div class="value-front">
+                        <h3>Excellence</h3>
+                        <p>Delivering high-quality.</p>
+                    </div>
+                    <div class="value-back">
+                        <p>Delivering high-quality solutions that set new benchmarks in the tech space.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="value-card">
+                <div class="value-inner">
+                    <div class="value-front">
+                        <h3>Empowerment</h3>
+                        <p>Building capacity.</p>
+                    </div>
+                    <div class="value-back">
+                        <p>Building capacity and fostering inclusion to ensure no one is left behind in the digital economy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="future" class="future reveal">
+        <h2 class="section-title">Future Outlook</h2>
+        <p>As digital transformation accelerates globally, Kaminova Labs is positioning itself as a regional and global leader in emerging technologies. Our future goals include:</p>
+        <ul class="future-list">
+            <li>Establishing centers of excellence in blockchain and AI research.</li>
+            <li>Expanding our educational and training programs to reach thousands of young innovators across Africa and beyond.</li>
+            <li>Launching flagship platforms and products that address challenges in cybersecurity, transparency, and governance.</li>
+            <li>Forming strategic alliances with international organizations, investors, and governments to scale our impact.</li>
+            <li>Driving Africa’s inclusion in the global decentralized economy, ensuring that local innovators contribute to and benefit from technological progress.</li>
+        </ul>
+        <p>We believe the future belongs to those who can harness technology responsibly, and Kaminova Labs is committed to ensuring that future is secure, transparent, and inclusive.</p>
+    </section>
+
+    <section class="conclusion reveal">
+        <h2 class="section-title">Conclusion</h2>
+        <p>Kaminova Labs is more than a technology company — we are a movement. A movement to transform industries, empower communities, and build a digital world where innovation creates value for all.</p>
+        <p>Through research, product development, consulting, and capacity building, we are bridging gaps in technology adoption, transparency, and governance. We are cultivating the next generation of tech leaders while delivering solutions that redefine trust and accountability in the digital age.</p>
+        <p>By continuously exploring new frontiers, we are ensuring that Kaminova Labs stands as a partner in innovation and impact — not only for today but for generations to come.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Kaminova Labs. All rights reserved. | Pioneering Tomorrow, Today.</p>
+    </footer>
+
+    <script>
+        // Three.js 3D Scene with Interactive Controls and Raycasting
+        const threeCanvas = document.getElementById('three-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+
+        // Add OrbitControls for interactivity
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.screenSpacePanning = false;
+        controls.minDistance = 5;
+        controls.maxDistance = 50;
+        controls.maxPolarAngle = Math.PI / 2;
+
+        // Create a wireframe sphere for 3D effect (clickable object)
+        const geometry = new THREE.SphereGeometry(5, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x00bfff, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        // Add floating particles in 3D
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 200;
+        const posArray = new Float32Array(particlesCount * 3);
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 20;
+        }
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.05,
+            color: 0x4169e1
+        });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 10;
+
+        // Raycasting setup for clickable 3D objects
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        function onMouseClick(event) {
+            // Calculate mouse position in normalized device coordinates (-1 to +1)
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            // Update the raycaster with the camera and mouse position
+            raycaster.setFromCamera(mouse, camera);
+
+            // Calculate objects intersecting the picking ray
+            const intersects = raycaster.intersectObjects([sphere]); // Target the sphere
+
+            if (intersects.length > 0) {
+                // Change sphere color on click (toggle between blue and green)
+                if (material.color.getHex() === 0x00bfff) {
+                    material.color.setHex(0x00ff00);
+                } else {
+                    material.color.setHex(0x00bfff);
+                }
+                console.log('Sphere clicked! Intersection point:', intersects[0].point);
+            }
+        }
+
+        // Add click event listener to the canvas
+        threeCanvas.addEventListener('click', onMouseClick, false);
+
+        function animateThree() {
+            requestAnimationFrame(animateThree);
+            sphere.rotation.x += 0.005;
+            sphere.rotation.y += 0.01;
+            particlesMesh.rotation.y += 0.002;
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animateThree();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Particle System (2D Canvas)
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.color = `hsl(${Math.random() * 60 + 210}, 70%, 60%)`; // Blue tones
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Reveal Animations on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        window.addEventListener('scroll', () => {
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const revealTop = reveal.getBoundingClientRect().top;
+                const revealPoint = 150;
+                if (revealTop < windowHeight - revealPoint) {
+                    reveal.classList.add('active');
+                }
+            });
+        });
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 20, 60, 0.98)';
+            } else {
+                header.style.background = 'rgba(0, 20, 60, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>
