@@ -1,3 +1,26 @@
+<?php
+require_once __DIR__ . '/config/database.php';
+$pdo = null;
+try {
+    $pdo = getDB();
+} catch (Throwable $e) {
+    $pdo = null;
+}
+function getSetting($pdo, $key, $default = '') {
+    if (!$pdo) return $default;
+    try {
+        $stmt = $pdo->prepare("SELECT setting_value AS v FROM site_settings WHERE setting_key = :k LIMIT 1");
+        $stmt->execute([':k' => $key]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '') return $row['v'];
+    } catch (Throwable $e) {}
+    return $default;
+}
+$SITE_NAME = getSetting($pdo, 'company_name', 'KAMINOVA LABS');
+$PHONE     = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
+$EMAIL     = getSetting($pdo, 'contact_email', 'info@kaminovalabs.com');
+$ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,27 +55,26 @@
     <header id="header">
         <a href="#" class="logo">
             <img src="img/logo3d.png" alt="KAMINOVA LABS">
-            KAMINOVA LABS
+            <?= htmlspecialchars($SITE_NAME) ?>
         </a>
 
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#services">Services</a></li>
-            <li><a href="index.html#mission">Mission</a></li>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="index.php#about">About</a></li>
+            <li><a href="index.php#services">Services</a></li>
+            <li><a href="index.php#mission">Mission</a></li>
             <li class="dropdown">
-                <a href="projects.html" class="dropdown-toggle current-page">Projects <i
-                        class="fas fa-chevron-down"></i></a>
+                <a href="projects.php" class="dropdown-toggle current-page">Projects <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu">
-                    <li><a href="projects.html#biofuture-governance">BioFuture & Governance</a></li>
-                    <li><a href="projects.html#forensics-security">Forensics & Security</a></li>
-                    <li><a href="projects.html#logistics-utility">Logistics & Utility</a></li>
-                    <li><a href="projects.html#finance-payments">Finance & Payments</a></li>
-                    <li><a href="projects.html#ecosystem-advisory">Ecosystem & Advisory</a></li>
+                    <li><a href="projects.php#biofuture-governance">BioFuture & Governance</a></li>
+                    <li><a href="projects.php#forensics-security">Forensics & Security</a></li>
+                    <li><a href="projects.php#logistics-utility">Logistics & Utility</a></li>
+                    <li><a href="projects.php#finance-payments">Finance & Payments</a></li>
+                    <li><a href="projects.php#ecosystem-advisory">Ecosystem & Advisory</a></li>
                 </ul>
             </li>
             <!-- <li><a href="#team">Team</a></li> -->
-            <li><a href="blog.html">Blog</a></li>
+            <li><a href="blog.php">Blog</a></li>
             <li><a href="#achievements">Achievements</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -318,265 +340,11 @@
     </div>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-grid">
-                <div>
-                    <div class="footer-logo">KAMINOVA LABS</div>
-                    <p class="footer-desc">Pioneering digital innovation through cutting-edge technology solutions in
-                        blockchain, AI, cybersecurity, and digital forensics.</p>
-                </div>
-
-                <div>
-                    <h3 class="footer-heading">Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="footer-heading">Contact Info</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Innovation Drive, Nigeria</li>
-                        <li><i class="fas fa-phone"></i> +234 xxxxxxxxxx</li>
-                        <li><i class="fas fa-envelope"></i> info@kaminovalabs.com</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2025 Kaminova Labs. All Rights Reserved. | <a href="#"
-                        style="color: var(--electric-blue);">Privacy Policy</a> | <a href="#"
-                        style="color: var(--electric-blue);">Terms of Service</a></p>
-            </div>
-        </div>
-    </footer>
+    <?php include 'includes/footer.php'; ?>
+    <script src="js/script.js"></script>
 
     <script>
         // Three.js 3D Scene with Interactive Controls
-        const threeCanvas = document.getElementById('three-canvas');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000, 0);
-
-        // Add OrbitControls for interactivity
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.screenSpacePanning = false;
-        controls.minDistance = 5;
-        controls.maxDistance = 50;
-        controls.maxPolarAngle = Math.PI / 2;
-
-        // Create a wireframe sphere for 3D effect
-        const geometry = new THREE.SphereGeometry(5, 32, 32);
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x00bfff,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.3
-        });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
-
-        // Add floating particles in 3D
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 200;
-        const posArray = new Float32Array(particlesCount * 3);
-        for (let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 20;
-        }
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.05,
-            color: 0x4169e1
-        });
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        camera.position.z = 10;
-
-        function animateThree() {
-            requestAnimationFrame(animateThree);
-            sphere.rotation.x += 0.005;
-            sphere.rotation.y += 0.01;
-            particlesMesh.rotation.y += 0.002;
-            controls.update();
-            renderer.render(scene, camera);
-        }
-        animateThree();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Particle System (2D Canvas)
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let particles = [];
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-                this.color = `hsl(${Math.random() * 60 + 210}, 70%, 60%)`; // Blue tones
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
-                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
-            }
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < 100; i++) {
-                particles.push(new Particle());
-            }
-        }
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        initParticles();
-        animateParticles();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initParticles();
-        });
-
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.querySelector('.nav-links');
-
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuToggle.querySelector('i').classList.toggle('fa-bars');
-            menuToggle.querySelector('i').classList.toggle('fa-times');
-        });
-
-        // Close mobile menu when clicking on links (except dropdown toggles)
-        document.querySelectorAll('.nav-links a:not(.dropdown-toggle)').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuToggle.querySelector('i').classList.add('fa-bars');
-                menuToggle.querySelector('i').classList.remove('fa-times');
-            });
-        });
-
-        // Scroll reveal animation
-        function revealElements() {
-            const elements = document.querySelectorAll('.reveal');
-
-            elements.forEach(el => {
-                const windowHeight = window.innerHeight;
-                const elementTop = el.getBoundingClientRect().top;
-                const elementVisible = 150;
-
-                if (elementTop < windowHeight - elementVisible) {
-                    el.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', revealElements);
-        window.addEventListener('load', revealElements);
-
-        // Page loader
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
-            setTimeout(() => {
-                loader.classList.add('hidden');
-            }, 1500);
-        });
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Header scroll effect
-        window.addEventListener('scroll', function () {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Animate stats counting
-        function animateValue(id, start, end, duration) {
-            const obj = document.getElementById(id);
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                obj.innerHTML = Math.floor(progress * (end - start) + start) + "+";
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
-        }
-
-        // Start counter animation when stats section is in view
-        const statsSection = document.querySelector('.stats-container');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateValue("clients", 0, 150, 2000);
-                    animateValue("projects", 0, 240, 2000);
-                    animateValue("team", 0, 45, 2000);
-                    animateValue("years", 0, 8, 2000);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        if (statsSection) {
-            observer.observe(statsSection);
-        }
-
         // Project Modal Functionality
         const modal = document.getElementById('projectModal');
         const modalBody = document.getElementById('modalBody');
@@ -675,7 +443,7 @@
                 status: "Under Development",
                 category: "Finance & Payments",
                 description: "Decentralized Bill & Mobile Top-Up Manager",
-                fullDescription: "A comprehensive Web3-powered application designed for the African market that tracks airtime and data usage, enables instant top-ups with HBAR or stablecoins, and executes secure bill payments through Hedera smart contracts with immutable receipts and budgeting insights.",
+                fullDescription: "A comprehensive Web3-powered app designed for the African market that tracks airtime and data usage, enables instant top-ups with HBAR or stablecoins, and executes secure bill payments through Hedera smart contracts with immutable receipts and budgeting insights.",
                 features: [
                     "Airtime and data usage tracking",
                     "Instant top-ups with HBAR and stablecoins",
@@ -709,7 +477,7 @@
                 status: "Under Development",
                 category: "Finance & Payments",
                 description: "Decentralized Donation & Transparency Platform",
-                fullDescription: "A Hedera-powered decentralized application designed for donations including Zakat, Sadaqah, and general charity in HBAR, stablecoins, or tokens. Trustfound uses the Hedera Consensus Service for immutable tracking, smart contracts for fair fund distribution, and provides a real-time public dashboard for complete transparency.",
+                fullDescription: "A Hedera-powered decentralized application designed for donations including Zakat, Sadaqah, Charity in HBAR, stablecoins, or tokens. Trustfound uses the Hedera Consensus Service for immutable tracking, smart contracts for fair fund distribution, and provides a real-time public dashboard for complete transparency.",
                 features: [
                     "Multi-currency donation support (HBAR, stablecoins, tokens)",
                     "Immutable donation tracking via Hedera Consensus Service",
@@ -776,9 +544,10 @@
 
         // Open modal function
         function openModal(projectKey) {
-            const project = projectDetails[projectKey];
+            const project = window.projectDetails ? window.projectDetails[projectKey] : null;
             if (!project) return;
 
+            const modalBody = document.getElementById('modalBody');
             modalBody.innerHTML = `
                 <h2>${project.title}</h2>
                 <p class="modal-status"><strong>Status:</strong> ${project.status}</p>
@@ -803,12 +572,14 @@
                 </div>
             `;
 
+            const modal = document.getElementById('projectModal');
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
 
         // Close modal function
         function closeModal() {
+            const modal = document.getElementById('projectModal');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
@@ -838,6 +609,141 @@
             }
         });
 
+        // API Functions for Dynamic Content
+        async function fetchAPI(endpoint) {
+            try {
+                const response = await fetch(`/api/get_content.php?${endpoint}`);
+                const data = await response.json();
+                return data.success ? data.data : null;
+            } catch (error) {
+                console.error('API Error:', error);
+                return null;
+            }
+        }
+
+        // Load Projects by Category
+        async function loadProjectsByCategory() {
+            const projects = await fetchAPI('type=projects&active_only=1');
+            if (projects && projects.length > 0) {
+                // Group projects by category
+                const categories = {
+                    'BioFuture & Governance': [],
+                    'Forensics & Security': [],
+                    'Logistics & Utility': [],
+                    'Finance & Payments': [],
+                    'Ecosystem & Advisory Projects': []
+                };
+
+                projects.forEach(project => {
+                    if (categories[project.category]) {
+                        categories[project.category].push(project);
+                    }
+                });
+
+                // Update each category section
+                Object.keys(categories).forEach(categoryName => {
+                    const categoryProjects = categories[categoryName];
+                    const sectionId = categoryName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+                    const section = document.getElementById(sectionId) || document.querySelector(`[id*="${sectionId.split('-')[0]}"]`);
+                    
+                    if (section && categoryProjects.length > 0) {
+                        const projectsGrid = section.querySelector('.projects-grid');
+                        if (projectsGrid) {
+                            projectsGrid.innerHTML = '';
+                            
+                            categoryProjects.forEach(project => {
+                                const projectCard = document.createElement('div');
+                                projectCard.className = 'project-card';
+                                projectCard.innerHTML = `
+                                    <div class="project-img">
+                                        <i class="${project.icon_class || 'fas fa-project-diagram'}"></i>
+                                    </div>
+                                    <div class="project-content">
+                                        <h3 class="project-title">${project.title}</h3>
+                                        <p class="project-status">(${project.status})</p>
+                                        <p class="project-desc">${project.short_description}</p>
+                                        <div class="project-team">
+                                            <p><strong>${project.team_role}:</strong> ${project.team_name}</p>
+                                        </div>
+                                        <button class="btn btn-secondary read-more-btn" data-project="${project.slug}">Read More</button>
+                                    </div>
+                                `;
+                                projectsGrid.appendChild(projectCard);
+                            });
+                        }
+                    }
+                });
+
+                // Update project details for modal
+                updateProjectDetails(projects);
+                // Re-attach event listeners for new buttons
+                attachModalEventListeners();
+            }
+        }
+
+        // Update project details object with database data
+        function updateProjectDetails(projects) {
+            window.projectDetails = {};
+            projects.forEach(project => {
+                window.projectDetails[project.slug] = {
+                    title: project.title,
+                    status: project.status,
+                    category: project.category,
+                    description: project.short_description,
+                    fullDescription: project.full_description,
+                    features: project.features || [],
+                    team: [
+                        { role: project.team_role, name: project.team_name }
+                    ]
+                };
+            });
+        }
+
+        // Attach event listeners for modal functionality
+        function attachModalEventListeners() {
+            const readMoreBtns = document.querySelectorAll('.read-more-btn');
+            readMoreBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const projectKey = btn.getAttribute('data-project');
+                    openModal(projectKey);
+                });
+            });
+        }
+
+        // Load Site Settings for Footer
+        async function loadSiteSettings() {
+            const settings = await fetchAPI('type=settings');
+            if (settings) {
+                // Update contact info in footer
+                const contactLinks = document.querySelectorAll('.footer-links li');
+                contactLinks.forEach(link => {
+                    const text = link.textContent;
+                    if (text.includes('Innovation Drive') && settings.contact_address) {
+                        link.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${settings.contact_address}`;
+                    }
+                    if (text.includes('+234') && settings.contact_phone) {
+                        link.innerHTML = `<i class="fas fa-phone"></i> ${settings.contact_phone}`;
+                    }
+                    if (text.includes('info@kaminovalabs.com') && settings.contact_email) {
+                        link.innerHTML = `<i class="fas fa-envelope"></i> ${settings.contact_email}`;
+                    }
+                });
+
+                // Update company name in footer
+                const footerLogo = document.querySelector('.footer-logo');
+                if (footerLogo && settings.company_name) {
+                    footerLogo.textContent = settings.company_name;
+                }
+            }
+        }
+
+        // Initialize Dynamic Content
+        async function initializeDynamicContent() {
+            await loadSiteSettings();
+            await loadProjectsByCategory();
+        }
+
         // Dropdown functionality
         const dropdown = document.querySelector('.dropdown');
         const dropdownToggle = document.querySelector('.dropdown-toggle');
@@ -861,6 +767,9 @@
                 dropdown.classList.remove('active');
             }
         });
+
+        // Load dynamic content when page loads
+        document.addEventListener('DOMContentLoaded', initializeDynamicContent);
     </script>
 </body>
 

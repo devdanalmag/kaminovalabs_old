@@ -1879,3 +1879,33 @@ footer {
         transform: translateY(0);
     }
 }
+/* Event Modal responsive layout and actions */
+#eventModalOverlay .modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+#eventModalOverlay .modal-details {
+  padding: 16px 20px;
+}
+
+#eventModalOverlay #eventModalDescription {
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+#eventModalOverlay .modal-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  #eventModalOverlay .modal-body {
+    grid-template-columns: 1fr;
+  }
+  #eventModalOverlay .modal-image {
+    height: 200px;
+  }
+}
