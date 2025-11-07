@@ -53,7 +53,7 @@ A comprehensive PHP admin panel for managing the Kaminova Labs website content i
 
 ```
 kaminovalabs_old/
-├── admin/                  # Admin panel files
+├── kl_admin/                  # Admin panel files
 │   ├── assets/            # CSS and JS files
 │   ├── auth.php           # Authentication system
 │   ├── login.php          # Login page
@@ -83,7 +83,7 @@ kaminovalabs_old/
 
 ### Admin Panel Access
 
-1. Navigate to `/admin/` in your browser
+1. Navigate to `/kl_admin/` in your browser
 2. Login with admin credentials
 3. Use the sidebar navigation to access different sections
 
@@ -178,7 +178,7 @@ fetch('/api/get_content.php?type=events&event_type=upcoming&limit=3')
 
 ### Styling
 
-- Edit `admin/assets/admin.css` for admin panel styling
+- Edit `kl_admin/assets/admin.css` for admin panel styling
 - Responsive design with CSS Grid and Flexbox
 - Modern gradient themes and animations
 

@@ -102,6 +102,6 @@ try {
 }
 
 echo "<hr>";
-echo "<p><a href='admin/'>Go to Admin Panel</a></p>";
-echo "<p><a href='admin/debug.php'>Go to Debug Page</a></p>";
+echo "<p><a href='kl_admin/'>Go to Admin Panel</a></p>";
+echo "<p><a href='kl_admin/debug.php'>Go to Debug Page</a></p>";
 ?>

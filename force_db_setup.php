@@ -144,7 +144,7 @@ try {
     $adminPasswordHash = password_hash('admin123', PASSWORD_DEFAULT);
     $stmt = $pdo->prepare("INSERT INTO admin_users (username, email, password) VALUES (?, ?, ?)");
     $stmt->execute(['admin', 'admin@kaminovalabs.com', $adminPasswordHash]);
-    echo "<p class='success'>✅ Created admin user (admin/admin123)</p>";
+    echo "<p class='success'>✅ Created admin user (kl_admin/kl_admin123)</p>";
     
     // Insert default site settings
     $default_settings = [
@@ -217,7 +217,7 @@ try {
     echo "<hr>";
     echo "<h2 class='success'>🎉 Database setup completed successfully!</h2>";
     echo "<p><strong>Admin Login:</strong> admin / admin123</p>";
-    echo "<p><a href='admin/'>Go to Admin Panel</a> | ";
+    echo "<p><a href='kl_admin/'>Go to Admin Panel</a> | ";
     echo "<a href='check_updates.php'>Test Updates</a> | ";
     echo "<a href='index.html'>View Website</a></p>";
     

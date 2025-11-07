@@ -214,7 +214,7 @@ try {
 
 echo "<hr>";
 echo "<h2>Diagnostic Summary</h2>";
-echo "<p><a href='admin/settings.php'>Go to Admin Settings</a> | ";
-echo "<a href='admin/debug.php'>Go to Debug Page</a> | ";
+echo "<p><a href='kl_admin/settings.php'>Go to Admin Settings</a> | ";
+echo "<a href='kl_admin/debug.php'>Go to Debug Page</a> | ";
 echo "<a href='test_db.php'>Run Basic DB Test</a></p>";
 ?>

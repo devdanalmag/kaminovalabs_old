@@ -103,7 +103,7 @@ try {
     
     echo "<hr>";
     echo "<p style='color: green; font-weight: bold;'>🎉 Database setup completed successfully!</p>";
-    echo "<p><a href='admin/' style='color: blue;'>Go to Admin Panel</a></p>";
+    echo "<p><a href='kl_admin/' style='color: blue;'>Go to Admin Panel</a></p>";
     echo "<p><a href='test_db.php' style='color: blue;'>Run Database Tests</a></p>";
     echo "<p><a href='index.html' style='color: blue;'>View Website</a></p>";
     
