@@ -36,9 +36,9 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
 
 <body>
     <!-- Loader -->
-    <!-- <div class="loader" id="loader">
+    <div class="loader" id="loader">
         <div class="loader-circle"></div>
-    </div> -->
+    </div>
 
     <!-- 3D Canvas -->
     <canvas id="three-canvas"></canvas>
