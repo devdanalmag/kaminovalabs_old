@@ -488,7 +488,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
 
     <script>
         const CONFIG = {
-            baseUrl: '/kaminovalabs_old/',
+            baseUrl: 'https://kaminovaglobal.com/',
             uploadsPath: 'uploads/',
             eventsPath: 'uploads/events/'
         };
