@@ -196,7 +196,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <section class="section reveal" id="events">
         <div class="container">
             <div class="event-category">
-                <h3 class="category-title" style="padding-top: 35px;">Upcoming Events</h3>
+              <!-- <h3 class="category-title" style="padding-top: 35px;">Upcoming Events</h3> -->
                 <!-- <div class="projects-grid">
                     <div class="project-card event-card">
                         <div class="project-img event-img">
