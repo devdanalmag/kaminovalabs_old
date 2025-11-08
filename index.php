@@ -26,12 +26,71 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaminova Labs - Pioneering Digital Innovation</title>
+    <title>Kaminova Labs - Pioneering Digital Innovation | Blockchain, AI & Cybersecurity</title>
+    <meta name="description" content="Kaminova Labs delivers cutting-edge blockchain, AI, cybersecurity & digital forensics solutions. Transforming industries through next-gen technology innovation since 2015.">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Kaminova Labs - Pioneering Digital Innovation | Blockchain, AI & Cybersecurity">
+    <meta name="keywords" content="blockchain solutions, AI integration, cybersecurity, digital forensics, technology innovation, digital transformation, emerging technologies, Kaminova Labs">
+    <meta name="author" content="Kaminova Labs">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaminovalabs.com/">
+    <meta property="og:title" content="Kaminova Labs - Pioneering Digital Innovation">
+    <meta property="og:description" content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics. Cutting-edge solutions for the digital age.">
+    <meta property="og:image" content="https://kaminovalabs.com/img/logo3d.png">
+    <meta property="og:site_name" content="Kaminova Labs">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaminovalabs.com/">
+    <meta property="twitter:title" content="Kaminova Labs - Pioneering Digital Innovation">
+    <meta property="twitter:description" content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics.">
+    <meta property="twitter:image" content="https://kaminovalabs.com/img/logo3d.png">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Kaminova Labs",
+        "url": "https://kaminovalabs.com",
+        "logo": "https://kaminovalabs.com/img/logo3d.png",
+        "description": "Multidisciplinary technology innovation company specializing in blockchain, AI, cybersecurity, and digital forensics",
+        "foundingDate": "2015",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "Worldwide"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service"
+        },
+        "sameAs": []
+    }
+    </script>
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script">
+    <link rel="preload" href="styles.css" as="style">
+    
+    <!-- External Resources -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" href="img/logo-tp.png" type="image/x-icon">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kaminovalabs.com/">
 </head>
 
 <body>
