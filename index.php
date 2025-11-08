@@ -18,7 +18,7 @@ function getSetting($pdo, $key, $default = '') {
 }
 $SITE_NAME = getSetting($pdo, 'company_name', 'KAMINOVA LABS');
 $PHONE     = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
-$EMAIL     = getSetting($pdo, 'contact_email', 'info@kaminovalabs.com');
+$EMAIL     = getSetting($pdo, 'contact_email', 'info@kaminovaglobal.com');
 $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
 ?>
 <!DOCTYPE html>
@@ -38,18 +38,18 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kaminovalabs.com/">
+    <meta property="og:url" content="https://kaminovaglobal.com/">
     <meta property="og:title" content="Kaminova Labs - Pioneering Digital Innovation">
     <meta property="og:description" content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics. Cutting-edge solutions for the digital age.">
-    <meta property="og:image" content="https://kaminovalabs.com/img/logo3d.png">
+    <meta property="og:image" content="https://kaminovaglobal.com/img/logo3d.png">
     <meta property="og:site_name" content="Kaminova Labs">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://kaminovalabs.com/">
+    <meta property="twitter:url" content="https://kaminovaglobal.com/">
     <meta property="twitter:title" content="Kaminova Labs - Pioneering Digital Innovation">
     <meta property="twitter:description" content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics.">
-    <meta property="twitter:image" content="https://kaminovalabs.com/img/logo3d.png">
+    <meta property="twitter:image" content="https://kaminovaglobal.com/img/logo3d.png">
     
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#000000">
@@ -62,8 +62,8 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Kaminova Labs",
-        "url": "https://kaminovalabs.com",
-        "logo": "https://kaminovalabs.com/img/logo3d.png",
+        "url": "https://kaminovaglobal.com",
+        "logo": "https://kaminovaglobal.com/img/logo3d.png",
         "description": "Multidisciplinary technology innovation company specializing in blockchain, AI, cybersecurity, and digital forensics",
         "foundingDate": "2015",
         "address": {
@@ -90,7 +90,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <link rel="shortcut icon" href="img/logo-tp.png" type="image/x-icon">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://kaminovalabs.com/">
+    <link rel="canonical" href="https://kaminovaglobal.com/">
 </head>
 
 <body>
