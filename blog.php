@@ -271,27 +271,6 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
             <div class="event-category">
                 <h3 class="category-title">Past Events</h3>
                 <div class="projects-grid">
-                    <div class="project-card event-card past-event" data-title="Green Web3: Sustainable Blockchain Solutions" data-date="December 10, 2023" data-time="3:00 PM - 7:00 PM EST" data-location="Virtual Event" data-description="Explored the intersection of blockchain technology and environmental sustainability, featuring presentations on carbon tokenization, renewable energy tracking, and the GreenTrust Nexus ecosystem." data-image="uploads/Jigawa1.jpg" data-x-link="https://x.com/">
-                        <div class="project-img event-img">
-                            <img src="uploads/Jigawa1.jpg" alt="Green Web3: Sustainable Blockchain Solutions" class="fit-img">
-                        </div>
-                        <div class="project-content">
-                            <div class="event-meta">
-                                <span class="event-date">December 10, 2023</span>
-                                <span class="event-time">3:00 PM - 7:00 PM EST</span>
-                                <span class="event-location">Virtual Event</span>
-                            </div>
-                            <h3 class="project-title">Green Web3: Sustainable Blockchain Solutions</h3>
-                            <p class="project-desc">Explored the intersection of blockchain technology and environmental
-                                sustainability, featuring presentations on carbon tokenization, renewable energy
-                                tracking, and the GreenTrust Nexus ecosystem.</p>
-                            <div class="event-speakers">
-                                <p><strong>Speakers:</strong> Michael Rodriguez, Environmental Tech Leaders</p>
-                            </div>
-                            <button class="btn btn-secondary watch-replay-btn" data-event="green-web3" data-watch-link="https://youtu.be/placeholder">Watch
-                                Replay</button>
-                        </div>
-                    </div>
 
                     <div class="project-card event-card past-event" data-title="DeFi Innovation Showcase" data-date="November 18, 2023" data-time="2:00 PM - 5:00 PM EST" data-location="Virtual Event" data-description="Showcased the latest developments in decentralized finance, including live demos of HashSwap, discussions on user experience improvements, and the future of accessible DeFi platforms." data-image="uploads/defi.jpg" data-x-link="https://x.com/">
                         <div class="project-img event-img">
@@ -311,29 +290,6 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                                 <p><strong>Speakers:</strong> Jennifer Park, DeFi Development Team</p>
                             </div>
                             <button class="btn btn-secondary watch-replay-btn" data-event="defi-showcase" data-watch-link="https://youtu.be/placeholder">Watch
-                                Replay</button>
-                        </div>
-                    </div>
-
-                    <div class="project-card event-card past-event" data-title="Digital Philanthropy & Transparent Donations" data-date="October 25, 2023" data-time="11:00 AM - 3:00 PM EST" data-location="Virtual Event" data-description="Discussed the transformation of charitable giving through blockchain technology, featuring the Trustfound platform and insights into building trust in digital communities through transparent donation systems." data-image="uploads/trustfound.jpg" data-x-link="https://x.com/">
-                        <div class="project-img event-img">
-                            <img src="uploads/trustfound.jpg" alt="Digital Philanthropy & Transparent Donations" class="fit-img">
-                        </div>
-                        <div class="project-content">
-                            <div class="event-meta">
-                                <span class="event-date">October 25, 2023</span>
-                                <span class="event-time">11:00 AM - 3:00 PM EST</span>
-                                <span class="event-location">Virtual Event</span>
-                            </div>
-                            <h3 class="project-title">Digital Philanthropy & Transparent Donations</h3>
-                            <p class="project-desc">Discussed the transformation of charitable giving through blockchain
-                                technology, featuring the Trustfound platform and insights into building trust in
-                                digital communities through transparent donation systems.</p>
-                            <div class="event-speakers">
-                                <p><strong>Speakers:</strong> Omar Hassan, Community Leaders, Nonprofit Organizations
-                                </p>
-                            </div>
-                            <button class="btn btn-secondary watch-replay-btn" data-event="digital-philanthropy" data-watch-link="https://youtu.be/placeholder">Watch
                                 Replay</button>
                         </div>
                     </div>
