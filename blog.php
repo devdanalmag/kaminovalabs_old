@@ -133,9 +133,9 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
 
 <body>
     <!-- Loader -->
-    <!-- <div class="loader" id="loader">
+    <div class="loader" id="loader">
         <div class="loader-circle"></div>
-    </div> -->
+    </div> 
 
     <!-- 3D Canvas -->
     <canvas id="three-canvas"></canvas>
@@ -154,7 +154,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
         </a>
 
         <ul class="nav-links">
-            <li><a href="index.php">Home</a></li>
+            <li><a href="./">Home</a></li>
             <li><a href="index.php#about">About</a></li>
             <li><a href="index.php#services">Services</a></li>
             <li><a href="index.php#mission">Mission</a></li>
