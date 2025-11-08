@@ -197,8 +197,8 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
         <div class="container">
             <div class="event-category">
                 <h3 class="category-title" style="padding-top: 35px;">Upcoming Events</h3>
-                <div class="projects-grid">
-                    <!-- <div class="project-card event-card">
+                <!-- <div class="projects-grid">
+                    <div class="project-card event-card">
                         <div class="project-img event-img">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
@@ -219,7 +219,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                             <button class="btn btn-primary register-btn" data-event="blockchain-summit">Register
                                 Now</button>
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="project-card event-card">
                         <div class="project-img event-img">
@@ -265,7 +265,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                                 Now</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="event-category">
