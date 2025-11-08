@@ -138,7 +138,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
             <li><a href="#contact">Contact</a></li>
         </ul>
 
-        <!-- <a href="#" class="header-cta">Get Started</a> -->
+        <a href="#" class="header-cta">Get Started</a> 
 
         <div class="menu-toggle" id="menuToggle">
             <i class="fas fa-bars"></i>
