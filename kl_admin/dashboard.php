@@ -37,7 +37,7 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
 <body>
     <?php if ($showLoginGif): ?>
     <div id="loginGifOverlay" class="login-gif-overlay" aria-hidden="true">
-        <img src="/img/perro.gif" alt="Welcome" />
+        <img src="/img/welcome.gif" alt="Welcome" />
     </div>
     <?php endif; ?>
     <div class="admin-wrapper">
