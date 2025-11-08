@@ -194,6 +194,11 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
                     <h1>Blog Management</h1>
                     <p>Create and manage blog posts</p>
                 </div>
+                <div class="header-right">
+                    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </header>
 
             <!-- Content -->
@@ -340,5 +345,6 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
             document.getElementById('slug').value = slug;
         });
     </script>
+    <script src="assets/admin.js"></script>
 </body>
 </html>

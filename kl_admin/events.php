@@ -236,6 +236,11 @@ $events = fetchAll("SELECT * FROM events ORDER BY event_date DESC, created_at DE
                     <h1>Event Management</h1>
                     <p>Create and manage events</p>
                 </div>
+                <div class="header-right">
+                    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </header>
 
             <!-- Content -->
@@ -437,5 +442,6 @@ $events = fetchAll("SELECT * FROM events ORDER BY event_date DESC, created_at DE
             document.getElementById('slug').value = slug;
         });
     </script>
+    <script src="assets/admin.js"></script>
 </body>
 </html>

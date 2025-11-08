@@ -198,6 +198,11 @@ $team_members = fetchAll("SELECT * FROM team_members ORDER BY display_order ASC,
                     <h1>Team Management</h1>
                     <p>Manage team members</p>
                 </div>
+                <div class="header-right">
+                    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </header>
 
             <!-- Content -->
@@ -346,5 +351,6 @@ $team_members = fetchAll("SELECT * FROM team_members ORDER BY display_order ASC,
             </div>
         </div>
     </div>
+    <script src="assets/admin.js"></script>
 </body>
 </html>

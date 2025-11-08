@@ -3,6 +3,12 @@ require_once 'auth.php';
 Auth::requireLogin();
 
 $user = Auth::getCurrentUser();
+// Show login GIF overlay once after successful login
+$showLoginGif = false;
+if (isset($_SESSION['login_gif'])) {
+    $showLoginGif = true;
+    unset($_SESSION['login_gif']);
+}
 
 // Get statistics
 $stats = [
@@ -29,6 +35,11 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
     <link rel="stylesheet" href="assets/admin.css">
 </head>
 <body>
+    <?php if ($showLoginGif): ?>
+    <div id="loginGifOverlay" class="login-gif-overlay" aria-hidden="true">
+        <img src="/img/perro.gif" alt="Welcome" />
+    </div>
+    <?php endif; ?>
     <div class="admin-wrapper">
         <!-- Sidebar -->
         <nav class="sidebar">
@@ -98,6 +109,9 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
                     <p>Welcome back, <?php echo htmlspecialchars($user['username']); ?>!</p>
                 </div>
                 <div class="header-right">
+                    <button class="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <span class="user-info">
                         <i class="fas fa-user-circle"></i>
                         <?php echo htmlspecialchars($user['username']); ?>
@@ -202,6 +216,7 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
                 </div>
             </div>
         </div>
+        <script src="assets/admin.js"></script>
     </div>
 </body>
 </html>

@@ -160,6 +160,11 @@ try {
                     <h1>Site Settings</h1>
                     <p>Manage site configuration and content</p>
                 </div>
+                <div class="header-right">
+                    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </header>
 
             <!-- Content -->
@@ -298,5 +303,6 @@ try {
             </div>
         </div>
     </div>
+    <script src="assets/admin.js"></script>
 </body>
 </html>

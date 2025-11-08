@@ -67,20 +67,20 @@ if (file_exists($homePath) && is_readable($homePath)) {
     }
 }
 
-// Validate mandatory variables and apply defaults
-// $required = [
-//     'DB_HOST' => 'localhost',
-//     'DB_NAME' => 'kaminova_labs',
-//     'DB_USER' => 'root',
-//     'DB_PASS' => ''
-// ];
-
+//Validate mandatory variables and apply defaults
 $required = [
     'DB_HOST' => 'localhost',
-    'DB_NAME' => 'kaminova_DB',
-    'DB_USER' => 'kaminova_DB_ADMIN',
-    'DB_PASS' => '*Kaminovadbadmin2025#'
+    'DB_NAME' => 'kaminova_labs',
+    'DB_USER' => 'root',
+    'DB_PASS' => ''
 ];
+
+// $required = [
+//     'DB_HOST' => 'localhost',
+//     'DB_NAME' => 'kaminova_DB',
+//     'DB_USER' => 'kaminova_DB_ADMIN',
+//     'DB_PASS' => '*Kaminovadbadmin2025#'
+// ];
 
 foreach ($required as $k => $def) {
     if (env($k, null) === null) {

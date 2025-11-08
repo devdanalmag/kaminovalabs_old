@@ -5,10 +5,21 @@
     box-sizing: border-box;
 }
 
+/* Global color variables copied from site styles */
+:root {
+    --primary-blue: #0066ff;
+    --deep-blue: #00103d;
+    --electric-blue: #00d4ff;
+    --midnight: #000814;
+    --glow: #00ffff;
+    --white: #ffffff;
+    --dark-gradient: linear-gradient(135deg, #00ffff 0%, #001a3d 100%);
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
+    background: var(--dark-gradient);
+    color: var(--white);
 }
 
 .admin-wrapper {
@@ -19,7 +30,7 @@ body {
 /* Sidebar Styles */
 .sidebar {
     width: 250px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--electric-blue) 100%);
     color: white;
     position: fixed;
     height: 100vh;
@@ -75,7 +86,7 @@ body {
 .main-content {
     flex: 1;
     margin-left: 250px;
-    background: #f8f9fa;
+    background: transparent;
 }
 
 .content-header {
@@ -85,6 +96,23 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/* Hamburger toggle */
+.sidebar-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #333;
+    font-size: 1.4rem;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+}
+
+.sidebar-toggle:focus {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
 }
 
 .header-left h1 {
@@ -237,7 +265,7 @@ body {
 }
 
 .no-data a {
-    color: #667eea;
+    color: var(--primary-blue);
     text-decoration: none;
 }
 
@@ -254,13 +282,13 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, var(--primary-blue), var(--electric-blue));
     color: white;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 102, 255, 0.4);
 }
 
 .btn-success {
@@ -313,7 +341,7 @@ body {
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--primary-blue);
 }
 
 .form-group textarea {
@@ -390,7 +418,7 @@ body {
 }
 
 .file-upload:hover {
-    border-color: #667eea;
+    border-color: var(--primary-blue);
 }
 
 .file-upload input[type="file"] {
@@ -399,7 +427,7 @@ body {
 
 .file-upload-label {
     cursor: pointer;
-    color: #667eea;
+    color: var(--primary-blue);
 }
 
 /* Responsive */
@@ -417,6 +445,12 @@ body {
         margin-left: 0;
     }
 
+    .sidebar-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .content-header {
         padding: 1rem;
     }
@@ -432,4 +466,90 @@ body {
     .recent-content {
         grid-template-columns: 1fr;
     }
+}
+
+/* Login Page */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark-gradient);
+}
+
+/* Login success GIF overlay */
+.login-gif-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+}
+
+.login-gif-overlay img {
+    max-width: 60vw;
+    max-height: 60vh;
+}
+
+.login-gif-overlay.hidden {
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    pointer-events: none;
+}
+
+.login-container {
+    background: var(--white);
+    color: #333;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 420px;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.logo h1 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.logo p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.input-icon { position: relative; }
+.input-icon i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+.input-icon input { padding-left: 2.5rem; }
+
+.error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    border-left: 4px solid #dc3545;
+}
+
+.login-hint {
+    text-align: center;
+    margin-top: 1rem;
+    color: #666;
+    font-size: 0.9rem;
 }
