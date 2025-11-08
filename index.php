@@ -6,14 +6,16 @@ try {
 } catch (Throwable $e) {
     $pdo = null;
 }
-function getSetting($pdo, $key, $default = '') {
+function getSetting($pdo, $key, $default = '')
+{
     if (!$pdo) return $default;
     try {
         $stmt = $pdo->prepare("SELECT setting_value AS v FROM site_settings WHERE setting_key = :k LIMIT 1");
         $stmt->execute([':k' => $key]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '') return $row['v'];
-    } catch (Throwable $e) {}
+    } catch (Throwable $e) {
+    }
     return $default;
 }
 $SITE_NAME = getSetting($pdo, 'company_name', 'KAMINOVA LABS');
@@ -23,19 +25,20 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaminova Labs - Pioneering Digital Innovation | Blockchain, AI & Cybersecurity</title>
     <meta name="description" content="Kaminova Labs delivers cutting-edge blockchain, AI, cybersecurity & digital forensics solutions. Transforming industries through next-gen technology innovation since 2015.">
-    
+
     <!-- Primary Meta Tags -->
     <meta name="title" content="Kaminova Labs - Pioneering Digital Innovation | Blockchain, AI & Cybersecurity">
     <meta name="keywords" content="blockchain solutions, AI integration, cybersecurity, digital forensics, technology innovation, digital transformation, emerging technologies, Kaminova Labs">
     <meta name="author" content="Kaminova Labs">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kaminovaglobal.com/">
@@ -43,52 +46,52 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <meta property="og:description" content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics. Cutting-edge solutions for the digital age.">
     <meta property="og:image" content="https://kaminovaglobal.com/img/logo3d.png">
     <meta property="og:site_name" content="Kaminova Labs">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://kaminovaglobal.com/">
     <meta property="twitter:title" content="Kaminova Labs - Pioneering Digital Innovation">
     <meta property="twitter:description" content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics.">
     <meta property="twitter:image" content="https://kaminovaglobal.com/img/logo3d.png">
-    
+
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
+
     <!-- Structured Data -->
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Kaminova Labs",
-        "url": "https://kaminovaglobal.com",
-        "logo": "https://kaminovaglobal.com/img/logo3d.png",
-        "description": "Multidisciplinary technology innovation company specializing in blockchain, AI, cybersecurity, and digital forensics",
-        "foundingDate": "2015",
-        "address": {
-            "@type": "PostalAddress",
-            "addressCountry": "Worldwide"
-        },
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "contactType": "customer service"
-        },
-        "sameAs": []
-    }
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Kaminova Labs",
+            "url": "https://kaminovaglobal.com",
+            "logo": "https://kaminovaglobal.com/img/logo3d.png",
+            "description": "Multidisciplinary technology innovation company specializing in blockchain, AI, cybersecurity, and digital forensics",
+            "foundingDate": "2015",
+            "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "Worldwide"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer service"
+            },
+            "sameAs": []
+        }
     </script>
-    
+
     <!-- Preload Critical Resources -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script">
     <link rel="preload" href="styles.css" as="style">
-    
+
     <!-- External Resources -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" href="img/logo-tp.png" type="image/x-icon">
-    
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://kaminovaglobal.com/">
 </head>
@@ -225,18 +228,15 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
         <div class="about-content">
             <div class="about-text">
                 <p>
-                    We are a multidisciplinary technology innovation company at the forefront of digital transformation.
-                    Our mission is to solve the most complex challenges in today's digital economy through cutting-edge
-                    research, product development, consulting, and capacity building.
+                    Kaminova Labs is a multidisciplinary technology innovation company at the forefront of digital transformation. Our mission is to tackle the most complex challenges in today’s digital economy through advanced research, product development, strategic consulting, and capacity building.
+
                 </p>
                 <p>
-                    Founded in 2015, Kaminova Labs has grown to become a trusted partner for organizations seeking to
-                    leverage emerging technologies for competitive advantage. Our team of experts brings decades of
-                    experience in blockchain, artificial intelligence, cybersecurity, and digital forensics.
+                    Founded in 2021, Kaminova Labs has evolved into a trusted partner for organizations seeking to harness emerging technologies to achieve sustainable growth and competitive advantage. Our team combines deep expertise in D
+                    distributed ledger technologies, artificial intelligence, Digital asset security and emerging technologies, driving innovation across both traditional and decentralized ecosystems.
                 </p>
                 <p>
-                    We believe technology is more than just tools and code — it is the foundation of progress,
-                    transparency, and empowerment in the 21st century.
+                    At Kaminova Labs, we believe technology is more than just code or infrastructure, it is the foundation of progress, transparency, and empowerment in the 21st century. We exist to build that future.
                 </p>
             </div>
 
@@ -245,7 +245,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
             </div>
         </div>
 
-        <div class="stats-container">
+        <!-- <div class="stats-container">
             <div class="stat-item">
                 <div class="stat-number" id="clients">150+</div>
                 <div class="stat-label">Clients Worldwide</div>
@@ -262,7 +262,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                 <div class="stat-number" id="years">8+</div>
                 <div class="stat-label">Years of Excellence</div>
             </div>
-        </div>
+        </div> -->
     </section>
 
     <!-- Services Section -->
@@ -387,7 +387,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <!-- Projects Section -->
     <section class="section reveal" id="projects">
         <h2 class="section-title">Our Projects</h2>
-        
+
         <!-- BioFuture & Governance -->
         <div class="project-category">
             <h3 class="category-title">BioFuture & Governance</h3>
