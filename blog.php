@@ -193,9 +193,9 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     </section>
 
     <!- Events Section -->
-    <!-- <section class="section reveal" id="events">
+    <section class="section reveal" id="events">
         <div class="container">
-            <div class="event-category">
+            <!-- <div class="event-category">
                 <h3 class="category-title" style="padding-top: 35px;">Upcoming Events</h3>
                 <div class="projects-grid">
                     <div class="project-card event-card">
@@ -266,7 +266,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="event-category">
                 <h3 class="category-title">Past Events</h3>
@@ -340,7 +340,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                 </div>
             </div>
         </div>
-    </section> -->
+    </section>
     <!-- Hero Section -->
     <section class="hero section reveal">
         <div class="hero-section">
