@@ -25,16 +25,71 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaminova Labs - Blog & Events</title>
+    <meta name="description" content="Stay updated with Kaminova Labs' latest insights, innovations, and upcoming events in blockchain, AI, and cybersecurity.">
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Kaminova Labs - Blog & Events | Blockchain, AI & Cybersecurity">
+    <meta name="keywords" content="Kaminova Labs, blog, events, blockchain solutions, AI integration, cybersecurity, digital forensics, technology innovation">
+    <meta name="author" content="Kaminova Labs">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaminovaglobal.com/blog.php">
+    <meta property="og:title" content="Kaminova Labs - Blog & Events">
+    <meta property="og:description" content="Explore the latest insights and events from Kaminova Labs, pioneering digital innovation in blockchain and AI.">
+    <meta property="og:image" content="https://kaminovaglobal.com/img/logo3d.png">
+    <meta property="og:site_name" content="Kaminova Labs">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kaminovaglobal.com/blog.php">
+    <meta property="twitter:title" content="Kaminova Labs - Blog & Events">
+    <meta property="twitter:description" content="Stay updated with Kaminova Labs' latest insights and events in blockchain, AI, and cybersecurity.">
+    <meta property="twitter:image" content="https://kaminovaglobal.com/img/logo3d.png">
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Kaminova Labs - Blog & Events",
+            "url": "https://kaminovaglobal.com/blog.php",
+            "description": "Explore the latest insights and events from Kaminova Labs, pioneering digital innovation in blockchain and AI.",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Kaminova Labs",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://kaminovaglobal.com/img/logo3d.png"
+                }
+            }
+        }
+    </script>
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script">
+    <link rel="preload" href="styles.css" as="style">
+
+    <!-- External Resources -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" href="img/logo-tp.png" type="image/x-icon">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kaminovaglobal.com/">
     <style>
         /* Ensure event images fit nicely */
         .event-card .event-img {

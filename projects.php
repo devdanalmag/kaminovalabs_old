@@ -25,14 +25,69 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
 <html lang="en">
 
 <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaminova Labs - Pioneering Digital Innovation</title>
+    <title>Kaminova Labs — Projects | Blockchain, AI & Cybersecurity</title>
+    <meta name="description" content="Explore Kaminova Labs projects: blockchain, AI, cybersecurity and digital forensics initiatives currently in development, advisory or research.">
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Kaminova Labs — Projects | Blockchain, AI & Cybersecurity">
+    <meta name="keywords" content="Kaminova Labs projects, blockchain projects, AI projects, cybersecurity projects, digital forensics">
+    <meta name="author" content="Kaminova Labs">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kaminovaglobal.com/projects">
+    <meta property="og:title" content="Kaminova Labs — Projects">
+    <meta property="og:description" content="Explore Kaminova Labs projects: blockchain, AI, cybersecurity and digital forensics initiatives currently in development, advisory or research.">
+    <meta property="og:image" content="https://kaminovaglobal.com/img/logo3d.png">
+    <meta property="og:site_name" content="Kaminova Labs">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://kaminovaglobal.com/projects">
+    <meta name="twitter:title" content="Kaminova Labs — Projects">
+    <meta name="twitter:description" content="Explore Kaminova Labs projects: blockchain, AI, cybersecurity and digital forensics initiatives.">
+    <meta name="twitter:image" content="https://kaminovaglobal.com/img/logo3d.png">
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Kaminova Labs",
+            "url": "https://kaminovaglobal.com",
+            "logo": "https://kaminovaglobal.com/img/logo3d.png",
+            "description": "Multidisciplinary technology innovation company specializing in blockchain, AI, cybersecurity, and digital forensics",
+            "foundingDate": "2015",
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer service"
+            }
+        }
+    </script>
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script">
+    <link rel="preload" href="styles.css" as="style">
+
+    <!-- External Resources -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" href="img/logo-tp.png" type="image/x-icon">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kaminovaglobal.com/projects">
 
 </head>
 
@@ -60,21 +115,21 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
 
         <ul class="nav-links">
             <li><a href="./">Home</a></li>
-            <li><a href="index.php#about">About</a></li>
-            <li><a href="index.php#services">Services</a></li>
-            <li><a href="index.php#mission">Mission</a></li>
+            <li><a href="index#about">About</a></li>
+            <li><a href="index#services">Services</a></li>
+            <li><a href="index#mission">Mission</a></li>
             <li class="dropdown">
-                <a href="projects.php" class="dropdown-toggle current-page">Projects <i class="fas fa-chevron-down"></i></a>
+                <a href="projects" class="dropdown-toggle current-page">Projects <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu">
-                    <li><a href="projects.php#biofuture-governance">BioFuture & Governance</a></li>
-                    <li><a href="projects.php#forensics-security">Forensics & Security</a></li>
-                    <li><a href="projects.php#logistics-utility">Logistics & Utility</a></li>
-                    <li><a href="projects.php#finance-payments">Finance & Payments</a></li>
-                    <li><a href="projects.php#ecosystem-advisory">Ecosystem & Advisory</a></li>
+                    <li><a href="projects#biofuture-governance">BioFuture & Governance</a></li>
+                    <li><a href="projects#forensics-security">Forensics & Security</a></li>
+                    <li><a href="projects#logistics-utility">Logistics & Utility</a></li>
+                    <li><a href="projects#finance-payments">Finance & Payments</a></li>
+                    <li><a href="projects#ecosystem-advisory">Ecosystem & Advisory</a></li>
                 </ul>
             </li>
             <!-- <li><a href="#team">Team</a></li> -->
-            <li><a href="blog.php">Blog</a></li>
+            <li><a href="blog">Blog</a></li>
             <li><a href="#achievements">Achievements</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
