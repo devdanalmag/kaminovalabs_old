@@ -676,7 +676,7 @@ $ADDRESS = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
         // API Functions for Dynamic Content
         async function fetchAPI(endpoint) {
             try {
-                const response = await fetch(`/api/get_content.php?${endpoint}`);
+                const response = await fetch(`/api/get_content?${endpoint}`);
                 const data = await response.json();
                 return data.success ? data.data : null;
                 console.log(data.data);
