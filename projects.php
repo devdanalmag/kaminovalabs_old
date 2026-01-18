@@ -6,60 +6,69 @@ try {
 } catch (Throwable $e) {
     $pdo = null;
 }
-function getSetting($pdo, $key, $default = '') {
-    if (!$pdo) return $default;
+function getSetting($pdo, $key, $default = '')
+{
+    if (!$pdo)
+        return $default;
     try {
         $stmt = $pdo->prepare("SELECT setting_value AS v FROM site_settings WHERE setting_key = :k LIMIT 1");
         $stmt->execute([':k' => $key]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '') return $row['v'];
-    } catch (Throwable $e) {}
+        if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '')
+            return $row['v'];
+    } catch (Throwable $e) {
+    }
     return $default;
 }
 $SITE_NAME = getSetting($pdo, 'company_name', 'KAMINOVA LABS');
-$PHONE     = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
-$EMAIL     = getSetting($pdo, 'contact_email', 'info@kaminovalabs.com');
-$ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
+$PHONE = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
+$EMAIL = getSetting($pdo, 'contact_email', 'info@kaminovalabs.com');
+$ADDRESS = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaminova Labs — Projects | Blockchain, AI & Cybersecurity</title>
-    <meta name="description" content="Explore Kaminova Labs projects: blockchain, AI, cybersecurity and digital forensics initiatives currently in development, advisory or research.">
 
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="Kaminova Labs — Projects | Blockchain, AI & Cybersecurity">
-    <meta name="keywords" content="Kaminova Labs projects, blockchain projects, AI projects, cybersecurity projects, digital forensics">
-    <meta name="author" content="Kaminova Labs">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="English">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kaminova Labs — Projects | Blockchain, AI & Cybersecurity</title>
+        <meta name="description"
+            content="Explore Kaminova Labs projects: blockchain, AI, cybersecurity and digital forensics initiatives currently in development, advisory or research.">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kaminovaglobal.com/projects">
-    <meta property="og:title" content="Kaminova Labs — Projects">
-    <meta property="og:description" content="Explore Kaminova Labs projects: blockchain, AI, cybersecurity and digital forensics initiatives currently in development, advisory or research.">
-    <meta property="og:image" content="https://kaminovaglobal.com/img/logo3d.png">
-    <meta property="og:site_name" content="Kaminova Labs">
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="Kaminova Labs — Projects | Blockchain, AI & Cybersecurity">
+        <meta name="keywords"
+            content="Kaminova Labs projects, blockchain projects, AI projects, cybersecurity projects, digital forensics">
+        <meta name="author" content="Kaminova Labs">
+        <meta name="robots" content="index, follow">
+        <meta name="language" content="English">
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://kaminovaglobal.com/projects">
-    <meta name="twitter:title" content="Kaminova Labs — Projects">
-    <meta name="twitter:description" content="Explore Kaminova Labs projects: blockchain, AI, cybersecurity and digital forensics initiatives.">
-    <meta name="twitter:image" content="https://kaminovaglobal.com/img/logo3d.png">
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://kaminovaglobal.com/projects">
+        <meta property="og:title" content="Kaminova Labs — Projects">
+        <meta property="og:description"
+            content="Explore Kaminova Labs projects: blockchain, AI, cybersecurity and digital forensics initiatives currently in development, advisory or research.">
+        <meta property="og:image" content="https://kaminovaglobal.com/img/logo3d.png">
+        <meta property="og:site_name" content="Kaminova Labs">
 
-    <!-- Additional SEO Meta Tags -->
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="https://kaminovaglobal.com/projects">
+        <meta name="twitter:title" content="Kaminova Labs — Projects">
+        <meta name="twitter:description"
+            content="Explore Kaminova Labs projects: blockchain, AI, cybersecurity and digital forensics initiatives.">
+        <meta name="twitter:image" content="https://kaminovaglobal.com/img/logo3d.png">
 
-    <!-- Structured Data -->
-    <script type="application/ld+json">
+        <!-- Additional SEO Meta Tags -->
+        <meta name="theme-color" content="#000000">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+        <!-- Structured Data -->
+        <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "Organization",
@@ -75,27 +84,27 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
         }
     </script>
 
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script">
-    <link rel="preload" href="styles.css" as="style">
+        <!-- Preload Critical Resources -->
+        <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script">
+        <link rel="preload" href="styles.css" as="style">
 
-    <!-- External Resources -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="shortcut icon" href="img/logo-tp.png" type="image/x-icon">
+        <!-- External Resources -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="shortcut icon" href="img/logo-tp.png" type="image/x-icon">
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://kaminovaglobal.com/projects">
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://kaminovaglobal.com/projects">
 
-</head>
+    </head>
 
 <body>
     <!-- Loader -->
     <div class="loader" id="loader">
         <div class="loader-circle"></div>
-    </div> 
+    </div>
 
     <!-- 3D Canvas -->
     <canvas id="three-canvas"></canvas>
@@ -670,6 +679,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                 const response = await fetch(`/api/get_content.php?${endpoint}`);
                 const data = await response.json();
                 return data.success ? data.data : null;
+                console.log(data.data);
             } catch (error) {
                 console.error('API Error:', error);
                 return null;
@@ -700,12 +710,12 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                     const categoryProjects = categories[categoryName];
                     const sectionId = categoryName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
                     const section = document.getElementById(sectionId) || document.querySelector(`[id*="${sectionId.split('-')[0]}"]`);
-                    
+
                     if (section && categoryProjects.length > 0) {
                         const projectsGrid = section.querySelector('.projects-grid');
                         if (projectsGrid) {
                             projectsGrid.innerHTML = '';
-                            
+
                             categoryProjects.forEach(project => {
                                 const projectCard = document.createElement('div');
                                 projectCard.className = 'project-card';
