@@ -1,6 +1,7 @@
 google157f71abe08ccab4.html
 .env
 database/
+uploads/
 node_modules/
 vendor/
 .DS_Store
