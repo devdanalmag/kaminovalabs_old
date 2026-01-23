@@ -214,6 +214,12 @@ $events = fetchAll("SELECT * FROM events ORDER BY event_date DESC, created_at DE
                     </a>
                 </li>
                 <li>
+                    <a href="messages.php">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                    </a>
+                </li>
+                <li>
                     <a href="settings">
                         <i class="fas fa-cog"></i>
                         <span>Site Settings</span>

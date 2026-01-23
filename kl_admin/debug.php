@@ -11,9 +11,9 @@ try {
     $db = getDB();
     if ($db) {
         $debug_info[] = "✅ Database connection successful";
-        
+
         // Test if tables exist
-        $tables = ['admin_users', 'blog_posts', 'projects', 'team_members', 'site_settings', 'events'];
+        $tables = ['admin_users', 'blog_posts', 'projects', 'team_members', 'site_settings', 'events', 'contact_messages'];
         foreach ($tables as $table) {
             try {
                 $result = fetchOne("SELECT COUNT(*) as count FROM {$table}");
@@ -22,16 +22,16 @@ try {
                 $debug_info[] = "❌ Table '{$table}' error: " . $e->getMessage();
             }
         }
-        
+
         // Test site settings
         try {
             $settings = fetchAll("SELECT * FROM site_settings");
             $debug_info[] = "✅ Site settings loaded: " . count($settings) . " settings found";
-            
+
             // Test update operation
             $test_key = 'debug_test_' . time();
             $test_value = 'Test value ' . date('Y-m-d H:i:s');
-            
+
             // Insert test setting
             $insert_id = insertRecord('site_settings', [
                 'setting_key' => $test_key,
@@ -39,24 +39,25 @@ try {
                 'setting_type' => 'text',
                 'description' => 'Debug test setting'
             ]);
-            
+
             if ($insert_id) {
                 $debug_info[] = "✅ Insert test successful (ID: {$insert_id})";
-                
+
                 // Test update
                 $updated_value = 'Updated value ' . date('Y-m-d H:i:s');
-                $rows_affected = updateRecord('site_settings', 
-                    ['setting_value' => $updated_value], 
-                    'setting_key = :key', 
+                $rows_affected = updateRecord(
+                    'site_settings',
+                    ['setting_value' => $updated_value],
+                    'setting_key = :key',
                     ['key' => $test_key]
                 );
-                
+
                 if ($rows_affected > 0) {
                     $debug_info[] = "✅ Update test successful ({$rows_affected} rows affected)";
                 } else {
                     $debug_info[] = "❌ Update test failed (0 rows affected)";
                 }
-                
+
                 // Verify update
                 $updated_record = fetchOne("SELECT * FROM site_settings WHERE setting_key = :key", ['key' => $test_key]);
                 if ($updated_record && $updated_record['setting_value'] === $updated_value) {
@@ -64,18 +65,18 @@ try {
                 } else {
                     $debug_info[] = "❌ Update verification failed";
                 }
-                
+
                 // Clean up test record
                 deleteRecord('site_settings', 'setting_key = :key', ['key' => $test_key]);
                 $debug_info[] = "✅ Test cleanup completed";
             } else {
                 $debug_info[] = "❌ Insert test failed";
             }
-            
+
         } catch (Exception $e) {
             $debug_info[] = "❌ Site settings test error: " . $e->getMessage();
         }
-        
+
     } else {
         $debug_info[] = "❌ Database connection failed";
     }
@@ -94,6 +95,7 @@ $debug_info[] = "📋 Memory Limit: " . ini_get('memory_limit');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -101,6 +103,7 @@ $debug_info[] = "📋 Memory Limit: " . ini_get('memory_limit');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/admin.css">
 </head>
+
 <body>
     <div class="admin-wrapper">
         <!-- Sidebar -->
@@ -109,7 +112,7 @@ $debug_info[] = "📋 Memory Limit: " . ini_get('memory_limit');
                 <h3>Kaminova Labs</h3>
                 <p>Admin Panel</p>
             </div>
-            
+
             <ul class="sidebar-menu">
                 <li>
                     <a href="dashboard.php">
@@ -139,6 +142,12 @@ $debug_info[] = "📋 Memory Limit: " . ini_get('memory_limit');
                     <a href="team.php">
                         <i class="fas fa-users"></i>
                         <span>Team Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="messages.php">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
                     </a>
                 </li>
                 <li>
@@ -176,7 +185,7 @@ $debug_info[] = "📋 Memory Limit: " . ini_get('memory_limit');
             <div class="dashboard-content">
                 <div class="form-container">
                     <h2><i class="fas fa-database"></i> Database & System Tests</h2>
-                    
+
                     <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px; font-family: monospace;">
                         <?php foreach ($debug_info as $info): ?>
                             <div style="margin-bottom: 0.5rem; padding: 0.25rem;">
@@ -184,7 +193,7 @@ $debug_info[] = "📋 Memory Limit: " . ini_get('memory_limit');
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    
+
                     <div style="margin-top: 2rem;">
                         <a href="dashboard.php" class="btn btn-primary">
                             <i class="fas fa-arrow-left"></i> Back to Dashboard
@@ -198,4 +207,5 @@ $debug_info[] = "📋 Memory Limit: " . ini_get('memory_limit');
         </div>
     </div>
 </body>
+
 </html>

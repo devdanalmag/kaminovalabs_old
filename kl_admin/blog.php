@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $category = $_POST['category'] ?? '';
                 $author = $_POST['author'] ?? '';
                 $status = $_POST['status'] ?? 'draft';
-                
+
                 // Handle file upload
                 $featured_image = '';
                 if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == 0) {
@@ -25,16 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if (!is_dir($upload_dir)) {
                         mkdir($upload_dir, 0755, true);
                     }
-                    
+
                     $file_extension = pathinfo($_FILES['featured_image']['name'], PATHINFO_EXTENSION);
                     $filename = uniqid() . '.' . $file_extension;
                     $upload_path = $upload_dir . $filename;
-                    
+
                     if (move_uploaded_file($_FILES['featured_image']['tmp_name'], $upload_path)) {
                         $featured_image = 'uploads/blog/' . $filename;
                     }
                 }
-                
+
                 try {
                     insertRecord('blog_posts', [
                         'title' => $title,
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $error = 'Error creating blog post: ' . $e->getMessage();
                 }
                 break;
-                
+
             case 'update':
                 $id = $_POST['id'] ?? 0;
                 $title = $_POST['title'] ?? '';
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $category = $_POST['category'] ?? '';
                 $author = $_POST['author'] ?? '';
                 $status = $_POST['status'] ?? 'draft';
-                
+
                 $update_data = [
                     'title' => $title,
                     'slug' => $slug,
@@ -71,23 +71,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     'author' => $author,
                     'status' => $status
                 ];
-                
+
                 // Handle file upload
                 if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == 0) {
                     $upload_dir = '../uploads/blog/';
                     if (!is_dir($upload_dir)) {
                         mkdir($upload_dir, 0755, true);
                     }
-                    
+
                     $file_extension = pathinfo($_FILES['featured_image']['name'], PATHINFO_EXTENSION);
                     $filename = uniqid() . '.' . $file_extension;
                     $upload_path = $upload_dir . $filename;
-                    
+
                     if (move_uploaded_file($_FILES['featured_image']['tmp_name'], $upload_path)) {
                         $update_data['featured_image'] = 'uploads/blog/' . $filename;
                     }
                 }
-                
+
                 try {
                     $rows_affected = updateRecord('blog_posts', $update_data, 'id = :id', ['id' => $id]);
                     if ($rows_affected > 0) {
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $error = 'Error updating blog post: ' . $e->getMessage();
                 }
                 break;
-                
+
             case 'delete':
                 $id = $_POST['id'] ?? 0;
                 try {
@@ -124,6 +124,7 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,6 +132,7 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/admin.css">
 </head>
+
 <body>
     <div class="admin-wrapper">
         <!-- Sidebar -->
@@ -139,7 +141,7 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
                 <h3>Kaminova Labs</h3>
                 <p>Admin Panel</p>
             </div>
-            
+
             <ul class="sidebar-menu">
                 <li>
                     <a href="dashboard.php">
@@ -169,6 +171,12 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
                     <a href="team.php">
                         <i class="fas fa-users"></i>
                         <span>Team Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="messages.php">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
                     </a>
                 </li>
                 <li>
@@ -218,7 +226,7 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
                 <!-- Blog Form -->
                 <div class="form-container">
                     <h2><?php echo $edit_post ? 'Edit Blog Post' : 'Create New Blog Post'; ?></h2>
-                    
+
                     <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="action" value="<?php echo $edit_post ? 'update' : 'create'; ?>">
                         <?php if ($edit_post): ?>
@@ -227,36 +235,38 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
 
                         <div class="form-group">
                             <label for="title">Title</label>
-                            <input type="text" id="title" name="title" required 
-                                   value="<?php echo $edit_post ? htmlspecialchars($edit_post['title']) : ''; ?>">
+                            <input type="text" id="title" name="title" required
+                                value="<?php echo $edit_post ? htmlspecialchars($edit_post['title']) : ''; ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="slug">Slug (URL-friendly)</label>
-                            <input type="text" id="slug" name="slug" required 
-                                   value="<?php echo $edit_post ? htmlspecialchars($edit_post['slug']) : ''; ?>">
+                            <input type="text" id="slug" name="slug" required
+                                value="<?php echo $edit_post ? htmlspecialchars($edit_post['slug']) : ''; ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="excerpt">Excerpt</label>
-                            <textarea id="excerpt" name="excerpt"><?php echo $edit_post ? htmlspecialchars($edit_post['excerpt']) : ''; ?></textarea>
+                            <textarea id="excerpt"
+                                name="excerpt"><?php echo $edit_post ? htmlspecialchars($edit_post['excerpt']) : ''; ?></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="content">Content</label>
-                            <textarea id="content" name="content" required style="min-height: 200px;"><?php echo $edit_post ? htmlspecialchars($edit_post['content']) : ''; ?></textarea>
+                            <textarea id="content" name="content" required
+                                style="min-height: 200px;"><?php echo $edit_post ? htmlspecialchars($edit_post['content']) : ''; ?></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="category">Category</label>
-                            <input type="text" id="category" name="category" 
-                                   value="<?php echo $edit_post ? htmlspecialchars($edit_post['category']) : ''; ?>">
+                            <input type="text" id="category" name="category"
+                                value="<?php echo $edit_post ? htmlspecialchars($edit_post['category']) : ''; ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="author">Author</label>
-                            <input type="text" id="author" name="author" 
-                                   value="<?php echo $edit_post ? htmlspecialchars($edit_post['author']) : ''; ?>">
+                            <input type="text" id="author" name="author"
+                                value="<?php echo $edit_post ? htmlspecialchars($edit_post['author']) : ''; ?>">
                         </div>
 
                         <div class="form-group">
@@ -315,8 +325,8 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
                                         <a href="?edit=<?php echo $post['id']; ?>" class="btn btn-primary">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
-                                        <form method="POST" style="display: inline;" 
-                                              onsubmit="return confirm('Are you sure you want to delete this blog post?')">
+                                        <form method="POST" style="display: inline;"
+                                            onsubmit="return confirm('Are you sure you want to delete this blog post?')">
                                             <input type="hidden" name="action" value="delete">
                                             <input type="hidden" name="id" value="<?php echo $post['id']; ?>">
                                             <button type="submit" class="btn btn-danger">
@@ -335,7 +345,7 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
 
     <script>
         // Auto-generate slug from title
-        document.getElementById('title').addEventListener('input', function() {
+        document.getElementById('title').addEventListener('input', function () {
             const title = this.value;
             const slug = title.toLowerCase()
                 .replace(/[^a-z0-9 -]/g, '')
@@ -347,4 +357,5 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
     </script>
     <script src="assets/admin.js"></script>
 </body>
+
 </html>

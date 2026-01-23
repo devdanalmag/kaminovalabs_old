@@ -15,7 +15,8 @@ $stats = [
     'blog_posts' => fetchOne("SELECT COUNT(*) as count FROM blog_posts")['count'],
     'projects' => fetchOne("SELECT COUNT(*) as count FROM projects")['count'],
     'team_members' => fetchOne("SELECT COUNT(*) as count FROM team_members")['count'],
-    'events' => fetchOne("SELECT COUNT(*) as count FROM events")['count']
+    'events' => fetchOne("SELECT COUNT(*) as count FROM events")['count'],
+    'messages' => fetchOne("SELECT COUNT(*) as count FROM contact_messages")['count']
 ];
 
 // Get recent blog posts
@@ -26,19 +27,21 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Kaminova</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="shortcut icon" href="/img/logo-tp.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/img/logo-tp.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/admin.css">
 </head>
+
 <body>
     <?php if ($showLoginGif): ?>
-    <div id="loginGifOverlay" class="login-gif-overlay" aria-hidden="true">
-        <img src="/img/welcome.gif" alt="Welcome" />
-    </div>
+        <div id="loginGifOverlay" class="login-gif-overlay" aria-hidden="true">
+            <img src="/img/welcome.gif" alt="Welcome" />
+        </div>
     <?php endif; ?>
     <div class="admin-wrapper">
         <!-- Sidebar -->
@@ -47,7 +50,7 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
                 <h3>Kaminova Labs</h3>
                 <p>Admin Panel</p>
             </div>
-            
+
             <ul class="sidebar-menu">
                 <li class="active">
                     <a href="dashboard.php">
@@ -77,6 +80,12 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
                     <a href="team.php">
                         <i class="fas fa-users"></i>
                         <span>Team Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="messages.php">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
                     </a>
                 </li>
                 <li>
@@ -162,6 +171,16 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
                             <p>Events</p>
                         </div>
                     </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon blog">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3><?php echo $stats['messages']; ?></h3>
+                            <p>Messages</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Recent Content -->
@@ -197,7 +216,8 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
                         </div>
                         <div class="recent-list">
                             <?php if (empty($recent_projects)): ?>
-                                <p class="no-data">No projects found. <a href="projects.php">Create your first project</a></p>
+                                <p class="no-data">No projects found. <a href="projects.php">Create your first project</a>
+                                </p>
                             <?php else: ?>
                                 <?php foreach ($recent_projects as $project): ?>
                                     <div class="recent-item">
@@ -219,4 +239,5 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
         <script src="assets/admin.js"></script>
     </div>
 </body>
+
 </html>

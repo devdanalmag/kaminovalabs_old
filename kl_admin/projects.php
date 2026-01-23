@@ -212,6 +212,12 @@ $categories = [
                     </a>
                 </li>
                 <li>
+                    <a href="messages.php">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                    </a>
+                </li>
+                <li>
                     <a href="settings.php">
                         <i class="fas fa-cog"></i>
                         <span>Site Settings</span>

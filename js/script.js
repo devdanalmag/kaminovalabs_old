@@ -543,22 +543,43 @@ if (contactForm) {
         e.preventDefault();
         const status = document.getElementById('formStatus');
         const submitBtn = this.querySelector('button[type="submit"]');
+        const formData = new FormData(this);
 
         // Simple feedback
         submitBtn.disabled = true;
+        const originalBtnText = submitBtn.innerHTML;
         submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
 
-        // Simulate API call
-        setTimeout(() => {
-            status.innerHTML = '<p style="color: #00ff00; margin-top: 15px; padding: 10px; background: rgba(0, 255, 0, 0.1); border-radius: 8px;"><i class="fas fa-check-circle"></i> Thank you! Your message has been sent successfully. We will get back to you soon.</p>';
-            submitBtn.innerHTML = 'Sent! <i class="fas fa-check"></i>';
-            contactForm.reset();
+        fetch('api/submit_message.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    status.innerHTML = `<p style="color: #00ff00; margin-top: 15px; padding: 10px; background: rgba(0, 255, 0, 0.1); border-radius: 8px;"><i class="fas fa-check-circle"></i> ${data.message}</p>`;
+                    submitBtn.innerHTML = 'Sent! <i class="fas fa-check"></i>';
+                    contactForm.reset();
+                } else {
+                    status.innerHTML = `<p style="color: #ff4a4a; margin-top: 15px; padding: 10px; background: rgba(255, 74, 74, 0.1); border-radius: 8px;"><i class="fas fa-exclamation-circle"></i> ${data.message}</p>`;
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                }
 
-            // Reset button after 3 seconds
-            setTimeout(() => {
+                // Reset status after 5 seconds if success
+                if (data.success) {
+                    setTimeout(() => {
+                        status.innerHTML = '';
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                    }, 5000);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                status.innerHTML = '<p style="color: #ff4a4a; margin-top: 15px; padding: 10px; background: rgba(255, 74, 74, 0.1); border-radius: 8px;"><i class="fas fa-exclamation-circle"></i> An error occurred. Please try again later.</p>';
+                submitBtn.innerHTML = originalBtnText;
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Send Message <i class="fas fa-paper-plane"></i>';
-            }, 3000);
-        }, 1500);
+            });
     });
 }
