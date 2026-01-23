@@ -535,3 +535,30 @@ window.addEventListener('scroll', highlightCurrentSection);
 
 // Initial call to highlight current section
 highlightCurrentSection();
+
+// Contact Form Handler
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const status = document.getElementById('formStatus');
+        const submitBtn = this.querySelector('button[type="submit"]');
+
+        // Simple feedback
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+
+        // Simulate API call
+        setTimeout(() => {
+            status.innerHTML = '<p style="color: #00ff00; margin-top: 15px; padding: 10px; background: rgba(0, 255, 0, 0.1); border-radius: 8px;"><i class="fas fa-check-circle"></i> Thank you! Your message has been sent successfully. We will get back to you soon.</p>';
+            submitBtn.innerHTML = 'Sent! <i class="fas fa-check"></i>';
+            contactForm.reset();
+
+            // Reset button after 3 seconds
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Send Message <i class="fas fa-paper-plane"></i>';
+            }, 3000);
+        }, 1500);
+    });
+}

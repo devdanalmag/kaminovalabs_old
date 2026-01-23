@@ -480,14 +480,74 @@ $ADDRESS = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
     </section>
 
     <!-- Contact Section -->
-    <section class="contact-section reveal" id="contact">
-        <h2 class="section-title">Ready to Transform Your Future?</h2>
-        <p style="font-size: 1.2rem; margin-bottom: 40px; color: rgba(255,255,255,0.9);">
-            Join us in building a digital world where innovation creates value for all.
-        </p>
-        <div class="hero-cta">
-            <a href="#" class="btn btn-primary">Get Started</a>
-            <a href="#" class="btn btn-secondary">Learn More</a>
+    <section class="section reveal" id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-form-wrapper">
+                <h3>Send Us a Message</h3>
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Your Message" required style="min-height: 150px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Send Message <i class="fas fa-paper-plane"></i></button>
+                    <div id="formStatus" class="form-status"></div>
+                </form>
+            </div>
+            <div class="contact-info-wrapper">
+                <h3>Contact Information</h3>
+                <p class="contact-intro">Join us in building a digital world where innovation creates value for all.</p>
+                <div class="info-cards">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Our Headquarters</h4>
+                            <p><?= htmlspecialchars($ADDRESS) ?></p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Call Us</h4>
+                            <p><?= htmlspecialchars($PHONE) ?></p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Email Us</h4>
+                            <p><?= htmlspecialchars($EMAIL) ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="social-connect">
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
