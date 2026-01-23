@@ -14,21 +14,21 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
-    
+
     echo "<p class='success'>✅ Connected to MySQL server</p>";
-    
+
     // Drop and recreate database to ensure clean state
     $pdo->exec("DROP DATABASE IF EXISTS kaminova_labs");
     echo "<p class='warning'>⚠️ Dropped existing database (if any)</p>";
-    
+
     $pdo->exec("CREATE DATABASE kaminova_labs CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
     echo "<p class='success'>✅ Created fresh database 'kaminova_labs'</p>";
-    
+
     $pdo->exec("USE kaminova_labs");
-    
+
     // Create tables manually to ensure they exist
     echo "<h2>Creating Tables:</h2>";
-    
+
     // Admin users table
     $pdo->exec("
         CREATE TABLE admin_users (
@@ -41,7 +41,7 @@ try {
         )
     ");
     echo "<p class='success'>✅ Created admin_users table</p>";
-    
+
     // Site settings table
     $pdo->exec("
         CREATE TABLE site_settings (
@@ -54,7 +54,7 @@ try {
         )
     ");
     echo "<p class='success'>✅ Created site_settings table</p>";
-    
+
     // Blog posts table
     $pdo->exec("
         CREATE TABLE blog_posts (
@@ -72,7 +72,7 @@ try {
         )
     ");
     echo "<p class='success'>✅ Created blog_posts table</p>";
-    
+
     // Projects table
     $pdo->exec("
         CREATE TABLE projects (
@@ -95,7 +95,7 @@ try {
         )
     ");
     echo "<p class='success'>✅ Created projects table</p>";
-    
+
     // Team members table
     $pdo->exec("
         CREATE TABLE team_members (
@@ -114,7 +114,7 @@ try {
         )
     ");
     echo "<p class='success'>✅ Created team_members table</p>";
-    
+
     // Events table
     $pdo->exec("
         CREATE TABLE events (
@@ -138,14 +138,14 @@ try {
         )
     ");
     echo "<p class='success'>✅ Created events table</p>";
-    
-    // Insert admin user with correct hashed password for 'admin123'
+
+    // Insert admin user with correct hashed password
     echo "<h2>Inserting Default Data:</h2>";
     $adminPasswordHash = password_hash('admin123', PASSWORD_DEFAULT);
     $stmt = $pdo->prepare("INSERT INTO admin_users (username, email, password) VALUES (?, ?, ?)");
     $stmt->execute(['admin', 'admin@kaminovalabs.com', $adminPasswordHash]);
-    echo "<p class='success'>✅ Created admin user (kl_admin/kl_admin123)</p>";
-    
+    echo "<p class='success'>✅ Created admin user</p>";
+
     // Insert default site settings
     $default_settings = [
         ['company_name', 'Kaminova Labs', 'text', 'Company Name'],
@@ -161,13 +161,13 @@ try {
         ['stats_team', '45', 'text', 'Team Members'],
         ['stats_years', '8', 'text', 'Years of Experience']
     ];
-    
+
     $stmt = $pdo->prepare("INSERT INTO site_settings (setting_key, setting_value, setting_type, description) VALUES (?, ?, ?, ?)");
     foreach ($default_settings as $setting) {
         $stmt->execute($setting);
     }
     echo "<p class='success'>✅ Inserted " . count($default_settings) . " default settings</p>";
-    
+
     // Insert sample blog posts
     $pdo->exec("
         INSERT INTO blog_posts (title, slug, excerpt, content, category, author, status) VALUES
@@ -175,7 +175,7 @@ try {
         ('Building Sustainable Web3', 'green-web3-sustainability', 'How blockchain combats climate change', 'How blockchain technology is being leveraged to combat climate change through carbon tokenization, renewable energy tracking, and sustainable supply chain management.', 'Sustainability', 'Michael Rodriguez', 'published')
     ");
     echo "<p class='success'>✅ Inserted sample blog posts</p>";
-    
+
     // Insert sample projects
     $pdo->exec("
         INSERT INTO projects (title, slug, category, status, short_description, full_description, features, team_role, team_name, icon_class, display_order) VALUES
@@ -183,22 +183,22 @@ try {
         ('NodeWhisper', 'nodewhisper', 'Forensics & Security', 'Under Development', 'Blockchain Forensics & Threat Intelligence Platform - Next-gen forensic tool with threat heatmaps, behavioral fingerprinting, and collaborative case rooms.', 'Next-generation forensic tool equipped with advanced threat heatmaps, behavioral fingerprinting, and collaborative case rooms.', '[\"Advanced threat heatmaps and visualization\", \"Behavioral fingerprinting for suspicious activities\", \"Collaborative case rooms for team investigations\"]', 'Founder', 'Team Lead', 'fas fa-search', 2)
     ");
     echo "<p class='success'>✅ Inserted sample projects</p>";
-    
+
     // Test database operations
     echo "<h2>Testing Database Operations:</h2>";
-    
+
     // Test insert
     $stmt = $pdo->prepare("INSERT INTO site_settings (setting_key, setting_value, setting_type, description) VALUES (?, ?, ?, ?)");
     $stmt->execute(['test_setting', 'test_value', 'text', 'Test setting']);
     $test_id = $pdo->lastInsertId();
     echo "<p class='success'>✅ Test insert successful (ID: {$test_id})</p>";
-    
+
     // Test update
     $stmt = $pdo->prepare("UPDATE site_settings SET setting_value = ? WHERE id = ?");
     $stmt->execute(['updated_test_value', $test_id]);
     $rows_affected = $stmt->rowCount();
     echo "<p class='success'>✅ Test update successful ({$rows_affected} rows affected)</p>";
-    
+
     // Test select
     $stmt = $pdo->prepare("SELECT * FROM site_settings WHERE id = ?");
     $stmt->execute([$test_id]);
@@ -208,19 +208,18 @@ try {
     } else {
         echo "<p class='error'>❌ Test verification failed</p>";
     }
-    
+
     // Clean up test record
     $stmt = $pdo->prepare("DELETE FROM site_settings WHERE id = ?");
     $stmt->execute([$test_id]);
     echo "<p class='success'>✅ Test cleanup completed</p>";
-    
+
     echo "<hr>";
     echo "<h2 class='success'>🎉 Database setup completed successfully!</h2>";
-    echo "<p><strong>Admin Login:</strong> admin / admin123</p>";
     echo "<p><a href='kl_admin/'>Go to Admin Panel</a> | ";
     echo "<a href='check_updates.php'>Test Updates</a> | ";
-    echo "<a href='index.html'>View Website</a></p>";
-    
+    echo "<a href='index.php'>View Website</a></p>";
+
 } catch (PDOException $e) {
     echo "<p class='error'>❌ Database error: " . $e->getMessage() . "</p>";
 } catch (Exception $e) {

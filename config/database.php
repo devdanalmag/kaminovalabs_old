@@ -6,26 +6,30 @@
 
 require_once __DIR__ . '/env.php';
 
-class Database {
+class Database
+{
     private $host;
     private $db_name;
     private $username;
     private $password;
     private $conn;
 
-    public function getConnection() {
+    public function getConnection()
+    {
         if ($this->conn !== null) {
             return $this->conn;
         }
 
         try {
-            // Read from env with sane defaults
-            $this->host = env('DB_HOST', 'localhost');
-            $this->db_name = env('DB_NAME', 'kaminova_labs');
-            $this->username = env('DB_USER', 'root');
-            $this->password = env('DB_PASS', '');
-            if (!$this->host || !$this->db_name || !$this->username) {
-                throw new Exception('Invalid database configuration from environment');
+            // SECURITY: Read from env with NO defaults - credentials must come from .env only
+            $this->host = env('DB_HOST');
+            $this->db_name = env('DB_NAME');
+            $this->username = env('DB_USER');
+            $this->password = env('DB_PASS');
+
+            // Validate all required connection parameters are set
+            if (!$this->host || !$this->db_name || !$this->username || $this->password === null) {
+                throw new Exception('Missing required database configuration. Please check your .env file.');
             }
             $this->conn = new PDO(
                 "mysql:host=" . $this->host . ";dbname=" . $this->db_name . ";charset=utf8mb4",
@@ -38,7 +42,7 @@ class Database {
                     PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
                 ]
             );
-        } catch(PDOException $exception) {
+        } catch (PDOException $exception) {
             error_log("Database connection error: " . $exception->getMessage());
             throw new Exception("Database connection failed: " . $exception->getMessage());
         }
@@ -48,12 +52,14 @@ class Database {
 }
 
 // Helper functions for database operations
-function getDB() {
+function getDB()
+{
     $database = new Database();
     return $database->getConnection();
 }
 
-function executeQuery($sql, $params = []) {
+function executeQuery($sql, $params = [])
+{
     try {
         $db = getDB();
         if (!$db) {
@@ -73,41 +79,46 @@ function executeQuery($sql, $params = []) {
     }
 }
 
-function fetchOne($sql, $params = []) {
+function fetchOne($sql, $params = [])
+{
     $stmt = executeQuery($sql, $params);
     return $stmt->fetch();
 }
 
-function fetchAll($sql, $params = []) {
+function fetchAll($sql, $params = [])
+{
     $stmt = executeQuery($sql, $params);
     return $stmt->fetchAll();
 }
 
-function insertRecord($table, $data) {
+function insertRecord($table, $data)
+{
     $columns = implode(',', array_keys($data));
     $placeholders = ':' . implode(', :', array_keys($data));
-    
+
     $sql = "INSERT INTO {$table} ({$columns}) VALUES ({$placeholders})";
     $stmt = executeQuery($sql, $data);
-    
+
     return getDB()->lastInsertId();
 }
 
-function updateRecord($table, $data, $where, $whereParams = []) {
+function updateRecord($table, $data, $where, $whereParams = [])
+{
     $setParts = [];
     foreach (array_keys($data) as $key) {
         $setParts[] = "{$key} = :{$key}";
     }
     $setClause = implode(', ', $setParts);
-    
+
     $sql = "UPDATE {$table} SET {$setClause} WHERE {$where}";
     $params = array_merge($data, $whereParams);
-    
+
     $stmt = executeQuery($sql, $params);
     return $stmt->rowCount(); // Return number of affected rows
 }
 
-function deleteRecord($table, $where, $params = []) {
+function deleteRecord($table, $where, $params = [])
+{
     $sql = "DELETE FROM {$table} WHERE {$where}";
     return executeQuery($sql, $params);
 }

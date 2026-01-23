@@ -2,7 +2,7 @@
 // === CONFIG ===
 $repoDir = '/home/kaminova/public_html'; // path to your repo
 $branch = 'main'; // or 'master'
-$secret = 'kaminovalabs@2025'; // same secret you set in GitHub webhook
+$secret = env('GITHUB_WEBHOOK_SECRET'); // Loaded from .env
 
 // === VERIFY GITHUB SIGNATURE ===
 $headers = getallheaders();

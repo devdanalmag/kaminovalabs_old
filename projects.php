@@ -116,39 +116,8 @@ $ADDRESS = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
     <div class="geometric-background"></div>
 
     <!-- Navigation -->
-    <header id="header">
-        <a href="#" class="logo">
-            <img src="img/logo3d.png" alt="KAMINOVA LABS">
-            <?= htmlspecialchars($SITE_NAME) ?>
-        </a>
-
-        <ul class="nav-links">
-            <li><a href="./">Home</a></li>
-            <li><a href="index#about">About</a></li>
-            <li><a href="index#services">Services</a></li>
-            <li><a href="index#mission">Mission</a></li>
-            <li class="dropdown">
-                <a href="projects" class="dropdown-toggle current-page">Projects <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="projects#biofuture-governance">BioFuture & Governance</a></li>
-                    <li><a href="projects#forensics-security">Forensics & Security</a></li>
-                    <li><a href="projects#logistics-utility">Logistics & Utility</a></li>
-                    <li><a href="projects#finance-payments">Finance & Payments</a></li>
-                    <li><a href="projects#ecosystem-advisory">Ecosystem & Advisory</a></li>
-                </ul>
-            </li>
-            <!-- <li><a href="#team">Team</a></li> -->
-            <li><a href="blog">Blog</a></li>
-            <li><a href="#achievements">Achievements</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-
-        <!-- <a href="#" class="header-cta">Get Started</a> -->
-
-        <div class="menu-toggle" id="menuToggle">
-            <i class="fas fa-bars"></i>
-        </div>
-    </header>
+    <?php $currentPage = 'projects';
+    include 'includes/header.php'; ?>
     <!-- Main Content -->
     <!-- <main class="hero"> -->
     <!-- Hero Section -->

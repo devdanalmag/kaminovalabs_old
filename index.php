@@ -8,20 +8,22 @@ try {
 }
 function getSetting($pdo, $key, $default = '')
 {
-    if (!$pdo) return $default;
+    if (!$pdo)
+        return $default;
     try {
         $stmt = $pdo->prepare("SELECT setting_value AS v FROM site_settings WHERE setting_key = :k LIMIT 1");
         $stmt->execute([':k' => $key]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '') return $row['v'];
+        if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '')
+            return $row['v'];
     } catch (Throwable $e) {
     }
     return $default;
 }
 $SITE_NAME = getSetting($pdo, 'company_name', 'KAMINOVA LABS');
-$PHONE     = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
-$EMAIL     = getSetting($pdo, 'contact_email', 'info@kaminovaglobal.com');
-$ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
+$PHONE = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
+$EMAIL = getSetting($pdo, 'contact_email', 'info@kaminovaglobal.com');
+$ADDRESS = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,11 +32,13 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaminova Labs - Pioneering Digital Innovation | Blockchain, AI & Cybersecurity</title>
-    <meta name="description" content="Kaminova Labs delivers cutting-edge blockchain, AI, cybersecurity & digital forensics solutions. Transforming industries through next-gen technology innovation since 2015.">
+    <meta name="description"
+        content="Kaminova Labs delivers cutting-edge blockchain, AI, cybersecurity & digital forensics solutions. Transforming industries through next-gen technology innovation since 2015.">
 
     <!-- Primary Meta Tags -->
     <meta name="title" content="Kaminova Labs - Pioneering Digital Innovation | Blockchain, AI & Cybersecurity">
-    <meta name="keywords" content="blockchain solutions, AI integration, cybersecurity, digital forensics, technology innovation, digital transformation, emerging technologies, Kaminova Labs">
+    <meta name="keywords"
+        content="blockchain solutions, AI integration, cybersecurity, digital forensics, technology innovation, digital transformation, emerging technologies, Kaminova Labs">
     <meta name="author" content="Kaminova Labs">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -43,7 +47,8 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kaminovaglobal.com/">
     <meta property="og:title" content="Kaminova Labs - Pioneering Digital Innovation">
-    <meta property="og:description" content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics. Cutting-edge solutions for the digital age.">
+    <meta property="og:description"
+        content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics. Cutting-edge solutions for the digital age.">
     <meta property="og:image" content="https://kaminovaglobal.com/img/logo3d.png">
     <meta property="og:site_name" content="Kaminova Labs">
 
@@ -51,7 +56,8 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://kaminovaglobal.com/">
     <meta property="twitter:title" content="Kaminova Labs - Pioneering Digital Innovation">
-    <meta property="twitter:description" content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics.">
+    <meta property="twitter:description"
+        content="Transforming Industries Through Blockchain, AI, Cybersecurity & Digital Forensics.">
     <meta property="twitter:image" content="https://kaminovaglobal.com/img/logo3d.png">
 
     <!-- Additional SEO Meta Tags -->
@@ -112,36 +118,10 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <div class="geometric-background"></div>
 
     <!-- Navigation -->
-    <header id="header">
-        <a href="#" class="logo">
-            <img src="img/logo3d.png" alt="KAMINOVA LABS">
-            <?= htmlspecialchars($SITE_NAME) ?>
-        </a>
 
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#mission">Mission</a></li>
-            <li class="dropdown">
-                <a href="projects.php" class="dropdown-toggle">Projects <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="projects.php#biofuture-governance">BioFuture & Governance</a></li>
-                    <li><a href="projects.php#forensics-security">Forensics & Security</a></li>
-                    <li><a href="projects.php#logistics-utility">Logistics & Utility</a></li>
-                    <li><a href="projects.php#finance-payments">Finance & Payments</a></li>
-                    <li><a href="projects.php#ecosystem-advisory">Ecosystem & Advisory</a></li>
-                </ul>
-            </li>
-            <li><a href="blog.php">Blog</a></li>
-            <li><a href="#achievements">Achievements</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <?php $currentPage = 'index';
+        include 'includes/header.php'; ?>
 
-        <div class="menu-toggle" id="menuToggle">
-            <i class="fas fa-bars"></i>
-        </div>
-    </header>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -226,15 +206,22 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
         <div class="about-content">
             <div class="about-text">
                 <p>
-                    Kaminova Labs is a multidisciplinary technology innovation company at the forefront of digital transformation. Our mission is to tackle the most complex challenges in today’s digital economy through advanced research, product development, strategic consulting, and capacity building.
+                    Kaminova Labs is a multidisciplinary technology innovation company at the forefront of digital
+                    transformation. Our mission is to tackle the most complex challenges in today’s digital economy
+                    through advanced research, product development, strategic consulting, and capacity building.
 
                 </p>
                 <p>
-                    Founded in 2021, Kaminova Labs has evolved into a trusted partner for organizations seeking to harness emerging technologies to achieve sustainable growth and competitive advantage. Our team combines deep expertise in D
-                    distributed ledger technologies, artificial intelligence, Digital asset security and emerging technologies, driving innovation across both traditional and decentralized ecosystems.
+                    Founded in 2021, Kaminova Labs has evolved into a trusted partner for organizations seeking to
+                    harness emerging technologies to achieve sustainable growth and competitive advantage. Our team
+                    combines deep expertise in D
+                    distributed ledger technologies, artificial intelligence, Digital asset security and emerging
+                    technologies, driving innovation across both traditional and decentralized ecosystems.
                 </p>
                 <p>
-                    At Kaminova Labs, we believe technology is more than just code or infrastructure, it is the foundation of progress, transparency, and empowerment in the 21st century. We exist to build that future.
+                    At Kaminova Labs, we believe technology is more than just code or infrastructure, it is the
+                    foundation of progress, transparency, and empowerment in the 21st century. We exist to build that
+                    future.
                 </p>
             </div>
 
@@ -397,7 +384,8 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                     <div class="project-content">
                         <h3 class="project-title">GreenTrust Nexus</h3>
                         <p class="project-status">(Under Development)</p>
-                        <p class="project-desc">Climate, Trust & Tokenized Sustainability - A Web3 ecosystem for climate tokenization, trust networks, and incentive-driven governance.</p>
+                        <p class="project-desc">Climate, Trust & Tokenized Sustainability - A Web3 ecosystem for climate
+                            tokenization, trust networks, and incentive-driven governance.</p>
                         <a href="projects.html" class="btn btn-secondary">Read More</a>
                     </div>
                 </div>

@@ -8,32 +8,37 @@ try {
 }
 function getSetting($pdo, $key, $default = '')
 {
-    if (!$pdo) return $default;
+    if (!$pdo)
+        return $default;
     try {
         $stmt = $pdo->prepare("SELECT setting_value AS v FROM site_settings WHERE setting_key = :k LIMIT 1");
         $stmt->execute([':k' => $key]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '') return $row['v'];
+        if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '')
+            return $row['v'];
     } catch (Throwable $e) {
     }
     return $default;
 }
 $SITE_NAME = getSetting($pdo, 'company_name', 'KAMINOVA LABS');
-$PHONE     = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
-$EMAIL     = getSetting($pdo, 'contact_email', 'info@kaminovalabs.com');
-$ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
+$PHONE = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
+$EMAIL = getSetting($pdo, 'contact_email', 'info@kaminovalabs.com');
+$ADDRESS = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaminova Labs - Blog & Events</title>
-    <meta name="description" content="Stay updated with Kaminova Labs' latest insights, innovations, and upcoming events in blockchain, AI, and cybersecurity.">
+    <meta name="description"
+        content="Stay updated with Kaminova Labs' latest insights, innovations, and upcoming events in blockchain, AI, and cybersecurity.">
 
     <!-- Primary Meta Tags -->
     <meta name="title" content="Kaminova Labs - Blog & Events | Blockchain, AI & Cybersecurity">
-    <meta name="keywords" content="Kaminova Labs, blog, events, blockchain solutions, AI integration, cybersecurity, digital forensics, technology innovation">
+    <meta name="keywords"
+        content="Kaminova Labs, blog, events, blockchain solutions, AI integration, cybersecurity, digital forensics, technology innovation">
     <meta name="author" content="Kaminova Labs">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -42,7 +47,8 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kaminovaglobal.com/blog.php">
     <meta property="og:title" content="Kaminova Labs - Blog & Events">
-    <meta property="og:description" content="Explore the latest insights and events from Kaminova Labs, pioneering digital innovation in blockchain and AI.">
+    <meta property="og:description"
+        content="Explore the latest insights and events from Kaminova Labs, pioneering digital innovation in blockchain and AI.">
     <meta property="og:image" content="https://kaminovaglobal.com/img/logo3d.png">
     <meta property="og:site_name" content="Kaminova Labs">
 
@@ -50,7 +56,8 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://kaminovaglobal.com/blog.php">
     <meta property="twitter:title" content="Kaminova Labs - Blog & Events">
-    <meta property="twitter:description" content="Stay updated with Kaminova Labs' latest insights and events in blockchain, AI, and cybersecurity.">
+    <meta property="twitter:description"
+        content="Stay updated with Kaminova Labs' latest insights and events in blockchain, AI, and cybersecurity.">
     <meta property="twitter:image" content="https://kaminovaglobal.com/img/logo3d.png">
 
     <!-- Additional SEO Meta Tags -->
@@ -190,7 +197,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <!-- Loader -->
     <div class="loader" id="loader">
         <div class="loader-circle"></div>
-    </div> 
+    </div>
 
     <!-- 3D Canvas -->
     <canvas id="three-canvas"></canvas>
@@ -202,39 +209,11 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
     <div class="geometric-background"></div>
 
     <!-- Navigation -->
-    <header id="header">
-        <a href="#" class="logo">
-            <img src="img/logo3d.png" alt="KAMINOVA LABS">
-            <?= htmlspecialchars($SITE_NAME) ?>
-        </a>
 
-        <ul class="nav-links">
-            <li><a href="./">Home</a></li>
-            <li><a href="index.php#about">About</a></li>
-            <li><a href="index.php#services">Services</a></li>
-            <li><a href="index.php#mission">Mission</a></li>
-            <li class="dropdown">
-                <a href="projects.php" class="dropdown-toggle">Projects <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="projects.php#biofuture-governance">BioFuture & Governance</a></li>
-                    <li><a href="projects.php#forensics-security">Forensics & Security</a></li>
-                    <li><a href="projects.php#logistics-utility">Logistics & Utility</a></li>
-                    <li><a href="projects.php#finance-payments">Finance & Payments</a></li>
-                    <li><a href="projects.php#ecosystem-advisory">Ecosystem & Advisory</a></li>
-                </ul>
-            </li>
-            <!-- <li><a href="#team">Team</a></li> -->
-            <li><a href="blog.php" class="current-page">Blog</a></li>
-            <li><a href="#achievements">Achievements</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+    <?php $currentPage = 'blog';
+    include 'includes/header.php'; ?>
 
-        <!-- <a href="#" class="header-cta">Get Started</a> -->
-
-        <div class="menu-toggle" id="menuToggle">
-            <i class="fas fa-bars"></i>
-        </div>
-    </header>
+    <!-- <a href="#" class="header-cta">Get Started</a> -->
     <!-- Main Content -->
     <!-- <main class="hero"> -->
     <!-- Hero Section -->
@@ -245,119 +224,12 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                 <p class="hero-subtitle">Pioneering innovations across multiple domains</p>
             </div>
         </div>
-    </section>
-
-    <!- Events Section -->
-    <section class="section reveal" id="events">
-        <div class="container">
-            <div class="event-category">
-              <!-- <h3 class="category-title" style="padding-top: 35px;">Upcoming Events</h3> -->
-                <!-- <div class="projects-grid">
-                    <div class="project-card event-card">
-                        <div class="project-img event-img">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div class="project-content">
-                            <div class="event-meta">
-                                <span class="event-date">February 15, 2025</span>
-                                <span class="event-time">2:00 PM - 5:00 PM EST</span>
-                                <span class="event-location">Virtual Event</span>
-                            </div>
-                            <h3 class="project-title">Blockchain Innovation Summit 2025</h3>
-                            <p class="project-desc">Join industry leaders and innovators for a comprehensive discussion
-                                on the future of blockchain technology, featuring keynotes on AI integration,
-                                sustainability, and real-world applications across various sectors.</p>
-                            <div class="event-speakers">
-                                <p><strong>Keynote Speakers:</strong> Dr. Sarah Chen, Michael Rodriguez, Alex Thompson
-                                </p>
-                            </div>
-                            <button class="btn btn-primary register-btn" data-event="blockchain-summit">Register
-                                Now</button>
-                        </div>
-                    </div>
-
-                    <div class="project-card event-card">
-                        <div class="project-img event-img">
-                            <i class="fas fa-globe-africa"></i>
-                        </div>
-                        <div class="project-content">
-                            <div class="event-meta">
-                                <span class="event-date">March 8, 2025</span>
-                                <span class="event-time">10:00 AM - 4:00 PM WAT</span>
-                                <span class="event-location">Lagos, Nigeria</span>
-                            </div>
-                            <h3 class="project-title">Africa Blockchain Week: Empowering Local Innovation</h3>
-                            <p class="project-desc">A groundbreaking event focused on blockchain adoption in Africa,
-                                featuring workshops on DeFi, logistics solutions, and mobile payments. Connect with
-                                local entrepreneurs and global investors.</p>
-                            <div class="event-speakers">
-                                <p><strong>Featured Speakers:</strong> Amara Okafor, Jennifer Park, Local Industry
-                                    Leaders</p>
-                            </div>
-                            <button class="btn btn-primary register-btn" data-event="africa-blockchain-week">Register
-                                Now</button>
-                        </div>
-                    </div>
-
-                    <div class="project-card event-card">
-                        <div class="project-img event-img">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div class="project-content">
-                            <div class="event-meta">
-                                <span class="event-date">March 22, 2025</span>
-                                <span class="event-time">1:00 PM - 6:00 PM EST</span>
-                                <span class="event-location">Hybrid: NYC & Virtual</span>
-                            </div>
-                            <h3 class="project-title">Web3 Security & Forensics Workshop</h3>
-                            <p class="project-desc">Deep dive into advanced blockchain security practices, threat
-                                detection, and forensic analysis. Hands-on workshops with NodeWhisper and BADIS
-                                platforms, plus networking with security professionals.</p>
-                            <div class="event-speakers">
-                                <p><strong>Workshop Leaders:</strong> Alex Thompson, Security Team, Industry Experts</p>
-                            </div>
-                            <button class="btn btn-primary register-btn" data-event="security-workshop">Register
-                                Now</button>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-
-            <div class="event-category">
-                <h3 class="category-title">Past Events</h3>
-                <div class="projects-grid">
-
-                    <div class="project-card event-card past-event" data-title="DeFi Innovation Showcase" data-date="November 18, 2023" data-time="2:00 PM - 5:00 PM EST" data-location="Virtual Event" data-description="Showcased the latest developments in decentralized finance, including live demos of HashSwap, discussions on user experience improvements, and the future of accessible DeFi platforms." data-image="uploads/defi.jpg" data-x-link="https://x.com/">
-                        <div class="project-img event-img">
-                            <img src="uploads/defi.jpg" alt="DeFi Innovation Showcase" class="fit-img">
-                        </div>
-                        <div class="project-content">
-                            <div class="event-meta">
-                                <span class="event-date">November 18, 2023</span>
-                                <span class="event-time">2:00 PM - 5:00 PM EST</span>
-                                <span class="event-location">Virtual Event</span>
-                            </div>
-                            <h3 class="project-title">DeFi Innovation Showcase</h3>
-                            <p class="project-desc">Showcased the latest developments in decentralized finance,
-                                including live demos of HashSwap, discussions on user experience improvements, and the
-                                future of accessible DeFi platforms.</p>
-                            <div class="event-speakers">
-                                <p><strong>Speakers:</strong> Jennifer Park, DeFi Development Team</p>
-                            </div>
-                            <button class="btn btn-secondary watch-replay-btn" data-event="defi-showcase" data-watch-link="https://youtu.be/placeholder">Watch
-                                Replay</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Hero Section -->
+    </section> Hero Section -->
     <section class="hero section reveal">
         <div class="hero-section">
             <div class="container">
-                <h1 class="hero-title" style="padding-top: 30px;">Blog & Events</h1>
-                <p class="hero-subtitle">Stay updated with our latest insights, innovations, and upcoming events</p>
+                <h1 class="hero-title" style="padding-top: 30px;">Blog Posts</h1>
+                <p class="hero-subtitle">Stay updated with our latest insights,and innovations</p>
             </div>
         </div>
     </section>
@@ -515,28 +387,6 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
             </div>
         </div>
     </div>
-    <!-- Event Modal -->
-    <div id="eventModalOverlay" class="modal-overlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.93); display:none; align-items:center; justify-content:center; z-index:1000;">
-        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="eventModalTitle" tabindex="-1" style="background:#0f1226; color:#fff; width:90%; max-width:800px; border-radius:12px; overflow:auto; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-            <div class="modal-header" style="display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid rgba(255,255,255,0.1);">
-                <h3 id="eventModalTitle" style="margin:0; font-size:1.25rem;"></h3>
-            </div>
-            <div class="modal-body" style="display:grid; grid-template-columns:1fr 1fr; gap:0;">
-                <button id="closeEventModal" class="btn" aria-label="Close" title="Close">x</button>
-                <div class="modal-image" style="height:300px; overflow:hidden;">
-                    <img id="eventModalImage" src="" alt="Event image" style="width:100%; height:100%; object-fit:cover; display:block;">
-                </div>
-                <div class="modal-details" style="padding:16px 20px;">
-                    <p id="eventModalMeta" style="margin:0 0 8px; opacity:0.85;"></p>
-                    <p id="eventModalDescription" style="margin:0 0 16px; line-height:1.5; opacity:0.95;"></p>
-                    <div class="modal-actions" style="display:flex; gap:12px; flex-wrap:wrap;">
-                        <a id="eventWatchLink" href="#" target="_blank" rel="noopener" class="btn btn-primary" aria-label="Watch replay video" style="background:#4a6cff; color:#fff; text-decoration:none; padding:10px 14px; border-radius:8px; display: flex;">Watch Replay</a>
-                        <a id="eventXLink" href="#" target="_blank" rel="noopener" class="btn btn-secondary" aria-label="View full post on X" style="background:#1da1f2; color:#fff; text-decoration:none; padding:10px 14px; border-radius:8px; display: flex;">View More on X</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Footer -->
     <?php include 'includes/footer.php'; ?>
     <script src="js/script.js"></script>
@@ -548,7 +398,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
             eventsPath: 'uploads/events/'
         };
 
-        (function() {
+        (function () {
             // Project Modal Functionality (scoped to prevent redeclaration)
             const projectModalEl = document.getElementById('projectModal');
             const projectModalBody = document.getElementById('modalBody');
@@ -877,7 +727,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                             blogCard.className = 'project-card blog-card';
                             blogCard.innerHTML = `
                             <div class="project-img blog-img">
-                                ${post.featured_image ? 
+                                ${post.featured_image ?
                                     `<img src="${post.featured_image}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">` :
                                     '<i class="fas fa-blog"></i>'
                                 }
@@ -923,7 +773,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
 
                             eventCard.innerHTML = `
                             <div class="project-img event-img">
-                                ${imageSrc ? 
+                                ${imageSrc ?
                                     `<img src="${imageSrc}" alt="${event.title}" class="fit-img">` :
                                     `<i class="${event.icon_class || 'fas fa-calendar-alt'}"></i>`
                                 }
@@ -941,13 +791,13 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                                 </div>` : ''}
                                 <div class="event-actions" style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                                     ${event.watch_link ?
-                                        `<button class="btn btn-secondary watch-replay-btn" data-event="${event.slug}" data-watch-link="${event.watch_link || ''}" onclick="event.stopPropagation(); var l=this.dataset.watchLink; if(l) window.open(l,'_blank');">Watch Replay</button>` :
-                                        ''}
+                                    `<button class="btn btn-secondary watch-replay-btn" data-event="${event.slug}" data-watch-link="${event.watch_link || ''}" onclick="event.stopPropagation(); var l=this.dataset.watchLink; if(l) window.open(l,'_blank');">Watch Replay</button>` :
+                                    ''}
                                     ${event.x_link ?
-                                        `<a href="${event.x_link}" class="btn btn-outline x-link-btn" target="_blank" onclick="event.stopPropagation()">View Full Post on Twitter</a>` :
-                                        ''}
+                                    `<a href="${event.x_link}" class="btn btn-outline x-link-btn" target="_blank" onclick="event.stopPropagation()">View Full Post on Twitter</a>` :
+                                    ''}
                                 </div>
-                                ${event.registration_link ? 
+                                ${event.registration_link ?
                                     `<a href="${event.registration_link}" class="btn btn-primary register-btn" target="_blank" onclick="event.stopPropagation()">Register Now</a>` :
                                     '<button class="btn btn-primary register-btn" disabled onclick="event.stopPropagation()">Registration Coming Soon</button>'
                                 }
@@ -989,7 +839,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                                 eventCard.className = 'project-card event-card past-event';
                                 eventCard.innerHTML = `
                                 <div class="project-img event-img">
-                                    ${imageSrc ? 
+                                    ${imageSrc ?
                                         `<img src="${imageSrc}" alt="${event.title}" class="fit-img">` :
                                         `<i class="${event.icon_class || 'fas fa-calendar-alt'}"></i>`
                                     }
@@ -1008,13 +858,13 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                                     <div class="event-actions" style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                                         <button class="btn btn-secondary watch-replay-btn" data-event="${event.slug}" data-watch-link="${event.watch_link || ''}" onclick="event.stopPropagation(); var l=this.dataset.watchLink; if(l) window.open(l,'_blank');">Watch Replay</button>
                                         ${event.x_link ?
-                                            `<a href="${event.x_link}" class="btn btn-outline x-link-btn" target="_blank" onclick="event.stopPropagation()">View Full Post on Twitter</a>` :
-                                            ''}
+                                        `<a href="${event.x_link}" class="btn btn-outline x-link-btn" target="_blank" onclick="event.stopPropagation()">View Full Post on Twitter</a>` :
+                                        ''}
                                     </div>
                                 </div>
                             `;
-                            // Attach data for modal
-                            eventCard.dataset.title = event.title || '';
+                                // Attach data for modal
+                                eventCard.dataset.title = event.title || '';
                                 eventCard.dataset.date = event.event_date ? new Date(event.event_date).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'long',
@@ -1023,13 +873,13 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                                 eventCard.dataset.time = event.event_time || '';
                                 eventCard.dataset.location = event.location || '';
                                 eventCard.dataset.description = event.description || '';
-                            eventCard.dataset.image = imageSrc || '';
-                            eventCard.dataset.xLink = event.x_link || '';
-                            eventCard.dataset.watchLink = event.watch_link || '';
-                            // Inline click handler to open modal from card
-                            eventCard.setAttribute('onclick', 'openFromCardInline(this)');
-                            pastGrid.appendChild(eventCard);
-                        });
+                                eventCard.dataset.image = imageSrc || '';
+                                eventCard.dataset.xLink = event.x_link || '';
+                                eventCard.dataset.watchLink = event.watch_link || '';
+                                // Inline click handler to open modal from card
+                                eventCard.setAttribute('onclick', 'openFromCardInline(this)');
+                                pastGrid.appendChild(eventCard);
+                            });
                         }
                     }
                 }
@@ -1128,7 +978,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
             const dropdownToggle = document.querySelector('.dropdown-toggle');
 
             if (dropdownToggle) {
-                dropdownToggle.addEventListener('click', function(e) {
+                dropdownToggle.addEventListener('click', function (e) {
                     // Only prevent default if we're trying to show dropdown, not navigate
                     if (!dropdown.classList.contains('active')) {
                         e.preventDefault();
@@ -1141,7 +991,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
             }
 
             // Close dropdown when clicking outside
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (dropdown && !dropdown.contains(e.target)) {
                     dropdown.classList.remove('active');
                 }
@@ -1151,7 +1001,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
             document.addEventListener('DOMContentLoaded', initializeDynamicContent);
         })();
 
-        (function() {
+        (function () {
             const overlay = document.getElementById('eventModalOverlay');
             const titleEl = document.getElementById('eventModalTitle');
             const imgEl = document.getElementById('eventModalImage');
@@ -1197,7 +1047,7 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
                 overlay.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
                 // Move keyboard focus to modal for accessibility
-                try { closeBtn && closeBtn.focus(); } catch {}
+                try { closeBtn && closeBtn.focus(); } catch { }
             }
 
             // Expose handler globally for inline onclick usage
@@ -1263,13 +1113,13 @@ $ADDRESS   = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria'
             });
 
             // Initialize event listeners when DOM is ready
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 // Attach listeners to initial static content
                 attachEventModalListeners();
 
                 // Re-attach listeners after dynamic content loads
                 const originalLoadEvents = window.loadEvents;
-                window.loadEvents = async function() {
+                window.loadEvents = async function () {
                     if (originalLoadEvents) {
                         await originalLoadEvents();
                     }
