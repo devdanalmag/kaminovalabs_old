@@ -84,6 +84,7 @@ $messages = fetchAll("SELECT * FROM contact_messages ORDER BY created_at DESC");
             overflow-wrap: anywhere;
             word-break: break-word;
             max-width: 100%;
+            color: white;
         }
 
         .message-actions {
