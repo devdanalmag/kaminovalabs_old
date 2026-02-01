@@ -550,7 +550,7 @@ if (contactForm) {
         const originalBtnText = submitBtn.innerHTML;
         submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
 
-        fetch('api/submit_message.php', {
+        fetch('api/submit_message', {
             method: 'POST',
             body: formData
         })

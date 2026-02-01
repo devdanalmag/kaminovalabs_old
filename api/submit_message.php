@@ -8,7 +8,15 @@ require_once '../config/database.php';
 
 $response = ['success' => false, 'message' => ''];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$method = $_SERVER['REQUEST_METHOD'];
+
+// Handle pre-flight OPTIONS request
+if ($method === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+if (strtoupper($method) === 'POST') {
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $subject = trim($_POST['subject'] ?? '');
