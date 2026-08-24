@@ -119,6 +119,7 @@ $messages = fetchAll("SELECT * FROM contact_messages ORDER BY created_at DESC");
                 <li><a href="projects.php"><i class="fas fa-project-diagram"></i><span>Projects</span></a></li>
                 <li><a href="events.php"><i class="fas fa-calendar-alt"></i><span>Events</span></a></li>
                 <li><a href="team.php"><i class="fas fa-users"></i><span>Team Members</span></a></li>
+                <li><a href="partners.php"><i class="fas fa-handshake"></i><span>Ecosystem Partners</span></a></li>
                 <li class="active"><a href="messages.php"><i class="fas fa-envelope"></i><span>Messages</span></a></li>
                 <li><a href="settings.php"><i class="fas fa-cog"></i><span>Site Settings</span></a></li>
                 <li><a href="?logout=1" onclick="return confirm('Are you sure you want to logout?')"><i

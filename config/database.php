@@ -12,12 +12,12 @@ class Database
     private $db_name;
     private $username;
     private $password;
-    private $conn;
+    private static $conn = null;
 
     public function getConnection()
     {
-        if ($this->conn !== null) {
-            return $this->conn;
+        if (self::$conn !== null) {
+            return self::$conn;
         }
 
         try {
@@ -31,7 +31,7 @@ class Database
             if (!$this->host || !$this->db_name || !$this->username || $this->password === null) {
                 throw new Exception('Missing required database configuration. Please check your .env file.');
             }
-            $this->conn = new PDO(
+            self::$conn = new PDO(
                 "mysql:host=" . $this->host . ";dbname=" . $this->db_name . ";charset=utf8mb4",
                 $this->username,
                 $this->password,
@@ -47,7 +47,7 @@ class Database
             throw new Exception("Database connection failed: " . $exception->getMessage());
         }
 
-        return $this->conn;
+        return self::$conn;
     }
 }
 

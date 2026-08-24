@@ -174,6 +174,12 @@ $blog_posts = fetchAll("SELECT * FROM blog_posts ORDER BY created_at DESC");
                     </a>
                 </li>
                 <li>
+                    <a href="partners.php">
+                        <i class="fas fa-handshake"></i>
+                        <span>Ecosystem Partners</span>
+                    </a>
+                </li>
+                <li>
                     <a href="messages.php">
                         <i class="fas fa-envelope"></i>
                         <span>Messages</span>

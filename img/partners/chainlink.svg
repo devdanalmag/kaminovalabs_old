@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80">
+  <defs>
+    <linearGradient id="cl-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#375bd2"/>
+      <stop offset="100%" stop-color="#00d4ff"/>
+    </linearGradient>
+  </defs>
+  <!-- Chainlink Hexagon Logo -->
+  <g transform="translate(15, 10)">
+    <path d="M30 0 L55 14.5 L55 45.5 L30 60 L5 45.5 L5 14.5 Z" fill="none" stroke="url(#cl-grad)" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M30 14 L42 21 L42 39 L30 46 L18 39 L18 21 Z" fill="url(#cl-grad)" opacity="0.85"/>
+  </g>
+  <!-- Text -->
+  <text x="85" y="48" fill="#ffffff" font-family="'Segoe UI', -apple-system, sans-serif" font-size="28" font-weight="700" letter-spacing="1">Chainlink</text>
+</svg>

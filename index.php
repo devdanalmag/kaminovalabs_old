@@ -24,6 +24,18 @@ $SITE_NAME = getSetting($pdo, 'company_name', 'KAMINOVA LABS');
 $PHONE = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
 $EMAIL = getSetting($pdo, 'contact_email', 'info@kaminovaglobal.com');
 $ADDRESS = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
+
+// Fetch active partners for home page logo section
+$partners = [];
+if ($pdo) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM partners WHERE is_active = 1 ORDER BY display_order ASC, created_at DESC");
+        $stmt->execute();
+        $partners = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) {
+        $partners = [];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -439,6 +451,54 @@ $ADDRESS = getSetting($pdo, 'contact_address', '123 Innovation Drive, Nigeria');
             </div>
         </div>
     </section> -->
+
+    <!-- Ecosystem Partners Section -->
+    <section class="section reveal" id="partners">
+        <h2 class="section-title">Ecosystem Partners</h2>
+        <p class="hero-desc" style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">
+            Collaborating with pioneering Web3 protocols, AI platforms, cybersecurity innovators, and enterprise networks.
+        </p>
+
+        <div class="partners-home-wrapper">
+            <div class="partners-logo-grid">
+                <?php if (empty($partners)): ?>
+                    <p style="color: rgba(255,255,255,0.6); text-align: center; grid-column: 1 / -1;">
+                        Partner network updating...
+                    </p>
+                <?php else: ?>
+                    <?php foreach ($partners as $partner): ?>
+                        <a href="partners.php" 
+                           class="partner-logo-item" 
+                           title="<?= htmlspecialchars($partner['name']) ?><?= !empty($partner['title']) ? ' - ' . htmlspecialchars($partner['title']) : '' ?>"
+                           aria-label="<?= htmlspecialchars($partner['name']) ?>">
+                            <?php if (!empty($partner['logo'])): ?>
+                                <img src="<?= htmlspecialchars($partner['logo']) ?>" 
+                                     alt="<?= htmlspecialchars($partner['name']) ?>" 
+                                     class="home-partner-logo"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="fallback-logo-text" style="display: none;">
+                                    <i class="fas fa-handshake"></i>
+                                    <span><?= htmlspecialchars($partner['name']) ?></span>
+                                </div>
+                            <?php else: ?>
+                                <div class="fallback-logo-text">
+                                    <i class="fas fa-handshake"></i>
+                                    <span><?= htmlspecialchars($partner['name']) ?></span>
+                                </div>
+                            <?php endif; ?>
+                            <span class="partner-tooltip"><?= htmlspecialchars($partner['name']) ?></span>
+                        </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+
+            <div class="partners-cta-row">
+                <a href="partners.php" class="btn btn-secondary">
+                    <span>Explore All Ecosystem Partners</span> <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
 
     <!-- Company Achievements Section -->
     <section class="section reveal" id="achievements">

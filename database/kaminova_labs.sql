@@ -123,3 +123,26 @@ INSERT INTO blog_posts (title, slug, excerpt, content, category, author, status)
 INSERT INTO projects (title, slug, category, status, short_description, full_description, features, team_role, team_name, icon_class, display_order) VALUES
 ('GreenTrust Nexus', 'greentrust-nexus', 'BioFuture & Governance', 'Under Development', 'Climate, Trust & Tokenized Sustainability - A Web3 ecosystem for climate tokenization, trust networks, and incentive-driven governance.', 'A comprehensive Web3 ecosystem designed for climate tokenization, trust networks, and incentive-driven governance. GreenTrust Nexus aims to revolutionize how we approach environmental sustainability through blockchain technology, creating transparent and verifiable carbon credit systems, environmental impact tracking, and community-driven governance mechanisms.', '["Climate tokenization and carbon credit management", "Trust network establishment for environmental projects", "Incentive-driven governance for sustainability initiatives", "Transparent environmental impact tracking", "Community voting on climate projects"]', 'Founder', 'Team Lead', 'fas fa-leaf', 1),
 ('NodeWhisper', 'nodewhisper', 'Forensics & Security', 'Under Development', 'Blockchain Forensics & Threat Intelligence Platform - Next-gen forensic tool with threat heatmaps, behavioral fingerprinting, and collaborative case rooms.', 'Next-generation forensic tool equipped with advanced threat heatmaps, behavioral fingerprinting, and collaborative case rooms. NodeWhisper provides comprehensive blockchain analysis capabilities for law enforcement, compliance teams, and security professionals.', '["Advanced threat heatmaps and visualization", "Behavioral fingerprinting for suspicious activities", "Collaborative case rooms for team investigations", "Real-time blockchain transaction monitoring", "Comprehensive forensic reporting tools"]', 'Founder', 'Team Lead', 'fas fa-search', 2);
+
+-- Partners table
+CREATE TABLE IF NOT EXISTS partners (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    title VARCHAR(255) DEFAULT NULL,
+    category VARCHAR(100) DEFAULT 'Web3 & Blockchain',
+    description TEXT DEFAULT NULL,
+    logo VARCHAR(255) DEFAULT NULL,
+    website_url VARCHAR(255) DEFAULT NULL,
+    display_order INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Insert sample ecosystem partners
+INSERT INTO partners (name, title, category, description, logo, website_url, display_order, is_active) VALUES
+('Chainlink', 'Decentralized Oracle & Data Network', 'Web3 & Blockchain', 'Providing tamper-proof data feeds, verifiable randomness, and cross-chain communication for Kaminova Labs decentralized applications.', 'img/partners/chainlink.svg', 'https://chain.link', 1, 1),
+('Polygon Labs', 'Ethereum Scaling & Zero-Knowledge Tech', 'Web3 & Blockchain', 'Collaborating on high-throughput, low-latency layer-2 blockchain infrastructure and decentralized identity frameworks.', 'img/partners/polygon.svg', 'https://polygon.technology', 2, 1),
+('CertiK', 'Security Audits & Threat Intelligence', 'Security & Forensics', 'Strategic security auditor providing real-time smart contract verification, vulnerability assessment, and threat intelligence.', 'img/partners/certik.svg', 'https://certik.com', 3, 1),
+('NVIDIA Inception', 'AI & Deep Learning Infrastructure', 'AI & Forensics', 'Accelerating AI-driven predictive forensics, machine learning model optimization, and neural processing capabilities.', 'img/partners/nvidia.svg', 'https://nvidia.com', 4, 1),
+('AWS Activate', 'Cloud & Decentralized Node Infrastructure', 'Strategic & Advisory', 'Empowering scalable cloud deployment, enterprise node orchestration, and high-availability server clusters.', 'img/partners/aws.svg', 'https://aws.amazon.com', 5, 1);

@@ -4,7 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $response = ['success' => false, 'data' => null, 'error' => null];
 
@@ -154,6 +154,45 @@ try {
             }
             break;
             
+        case 'partners':
+            $category = $_GET['category'] ?? '';
+            $active_only = $_GET['active_only'] ?? true;
+            
+            $sql = "SELECT * FROM partners";
+            $params = [];
+            $conditions = [];
+            
+            if ($active_only) {
+                $conditions[] = "is_active = 1";
+            }
+            
+            if ($category) {
+                $conditions[] = "category = :category";
+                $params['category'] = $category;
+            }
+            
+            if (!empty($conditions)) {
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+            
+            $sql .= " ORDER BY display_order ASC, created_at DESC";
+            
+            $partners = fetchAll($sql, $params);
+            $response['data'] = $partners;
+            $response['success'] = true;
+            break;
+
+        case 'single_partner':
+            $id = $_GET['id'] ?? 0;
+            if ($id) {
+                $partner = fetchOne("SELECT * FROM partners WHERE id = :id AND is_active = 1", ['id' => $id]);
+                $response['data'] = $partner;
+                $response['success'] = true;
+            } else {
+                $response['error'] = 'ID parameter required';
+            }
+            break;
+
         default:
             $response['error'] = 'Invalid type parameter';
             break;

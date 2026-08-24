@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80">
+  <defs>
+    <linearGradient id="nv-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#76b900"/>
+      <stop offset="100%" stop-color="#99e000"/>
+    </linearGradient>
+  </defs>
+  <!-- NVIDIA Eye Icon -->
+  <g transform="translate(15, 14)">
+    <path d="M2 26 C8 12 24 2 40 2 C48 2 54 6 54 6 C54 6 46 9 40 12 C28 17 20 28 20 28 C20 28 30 20 40 20 C48 20 54 26 54 26 C54 26 44 26 38 32 C32 38 32 46 32 46 C32 46 22 46 16 38 C10 30 2 26 2 26 Z" fill="url(#nv-grad)"/>
+  </g>
+  <!-- Text -->
+  <text x="85" y="44" fill="#ffffff" font-family="'Segoe UI', -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="1">NVIDIA</text>
+  <text x="85" y="60" fill="#76b900" font-family="'Segoe UI', -apple-system, sans-serif" font-size="12" font-weight="600" letter-spacing="2">INCEPTION</text>
+</svg>

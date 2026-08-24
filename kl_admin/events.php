@@ -208,9 +208,15 @@ $events = fetchAll("SELECT * FROM events ORDER BY event_date DESC, created_at DE
                     </a>
                 </li>
                 <li>
-                    <a href="team">
+                    <a href="team.php">
                         <i class="fas fa-users"></i>
                         <span>Team Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="partners.php">
+                        <i class="fas fa-handshake"></i>
+                        <span>Ecosystem Partners</span>
                     </a>
                 </li>
                 <li>

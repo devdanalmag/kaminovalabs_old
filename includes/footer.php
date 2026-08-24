@@ -10,11 +10,12 @@
                 <div>
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="index.php#home">Home</a></li>
+                        <li><a href="index.php#about">About</a></li>
+                        <li><a href="index.php#services">Services</a></li>
+                        <li><a href="projects.php">Projects</a></li>
+                        <li><a href="partners.php">Partners</a></li>
+                        <li><a href="index.php#contact">Contact</a></li>
                     </ul>
                 </div>
 

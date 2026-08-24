@@ -145,6 +145,12 @@ $debug_info[] = "📋 Memory Limit: " . ini_get('memory_limit');
                     </a>
                 </li>
                 <li>
+                    <a href="partners.php">
+                        <i class="fas fa-handshake"></i>
+                        <span>Ecosystem Partners</span>
+                    </a>
+                </li>
+                <li>
                     <a href="messages.php">
                         <i class="fas fa-envelope"></i>
                         <span>Messages</span>

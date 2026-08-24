@@ -39,7 +39,7 @@ function isActive($page, $currentPage)
                 <li><a href="projects.php#ecosystem-advisory">Ecosystem & Advisory</a></li>
             </ul>
         </li>
-        <li><a href="#team">Team</a></li>
+        <li><a href="partners.php" class="<?= isActive('partners', $currentPage) ?>">Partners</a></li>
         <li><a href="event.php" class="<?= isActive('events', $currentPage) ?>">Events</a></li>
         <li><a href="blog.php" class="<?= isActive('blog', $currentPage) ?>">Blog</a></li>
         <li><a href="index.php#contact" class="<?= isActive('contact', $currentPage) ?>">Contact</a></li>

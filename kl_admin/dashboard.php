@@ -16,7 +16,8 @@ $stats = [
     'projects' => fetchOne("SELECT COUNT(*) as count FROM projects")['count'],
     'team_members' => fetchOne("SELECT COUNT(*) as count FROM team_members")['count'],
     'events' => fetchOne("SELECT COUNT(*) as count FROM events")['count'],
-    'messages' => fetchOne("SELECT COUNT(*) as count FROM contact_messages")['count']
+    'messages' => fetchOne("SELECT COUNT(*) as count FROM contact_messages")['count'],
+    'partners' => fetchOne("SELECT COUNT(*) as count FROM partners")['count'] ?? 0
 ];
 
 // Get recent blog posts
@@ -80,6 +81,12 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
                     <a href="team.php">
                         <i class="fas fa-users"></i>
                         <span>Team Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="partners.php">
+                        <i class="fas fa-handshake"></i>
+                        <span>Ecosystem Partners</span>
                     </a>
                 </li>
                 <li>
@@ -169,6 +176,16 @@ $recent_projects = fetchAll("SELECT id, title, created_at, status FROM projects 
                         <div class="stat-info">
                             <h3><?php echo $stats['events']; ?></h3>
                             <p>Events</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon blog" style="background: rgba(0, 212, 255, 0.1);">
+                            <i class="fas fa-handshake" style="color: var(--electric-blue);"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3><?php echo $stats['partners']; ?></h3>
+                            <p>Ecosystem Partners</p>
                         </div>
                     </div>
 
