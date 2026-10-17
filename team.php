@@ -1,4 +1,8 @@
 <?php
+// Team showcase section is directly integrated on the Contact page
+header("Location: contact.php#team", true, 301);
+exit;
+
 require_once __DIR__ . '/config/database.php';
 
 $pdo = null;

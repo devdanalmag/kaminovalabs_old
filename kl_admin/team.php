@@ -405,6 +405,9 @@ $photo_members = count(array_filter($team_members, fn($m) => !empty($m['image'])
                     <p>Add, edit, and organize leadership & team members</p>
                 </div>
                 <div class="header-right">
+                    <a href="../contact.php#team" target="_blank" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; margin-right: 12px; text-decoration: none; padding: 6px 14px; font-size: 0.85rem;">
+                        <i class="fas fa-external-link-alt"></i> View on Contact Page
+                    </a>
                     <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar" aria-expanded="false">
                         <i class="fas fa-bars"></i>
                     </button>

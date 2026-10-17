@@ -498,7 +498,7 @@ if ($pdo) {
             </div>
 
             <div style="text-align: center; margin-top: 2rem;">
-                <a href="team.php" class="btn btn-secondary">
+                <a href="contact.php#team" class="btn btn-secondary">
                     <span>Meet the Full Team</span> <i class="fas fa-arrow-right"></i>
                 </a>
             </div>

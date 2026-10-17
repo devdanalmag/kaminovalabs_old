@@ -40,7 +40,7 @@ if (!function_exists('isActive')) {
                 <li><a href="projects.php#ecosystem-advisory">Ecosystem & Advisory</a></li>
             </ul>
         </li>
-        <li><a href="team.php" class="<?= isActive('team', $currentPage) ?>">Team</a></li>
+        <li><a href="contact.php#team">Team</a></li>
         <li><a href="partners.php" class="<?= isActive('partners', $currentPage) ?>">Partners</a></li>
         <li><a href="event.php" class="<?= isActive('events', $currentPage) ?>">Events</a></li>
         <li><a href="blog.php" class="<?= isActive('blog', $currentPage) ?>">Blog</a></li>
