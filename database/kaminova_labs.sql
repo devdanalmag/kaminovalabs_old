@@ -58,8 +58,21 @@ CREATE TABLE IF NOT EXISTS team_members (
     email VARCHAR(100),
     linkedin VARCHAR(255),
     twitter VARCHAR(255),
+    github VARCHAR(255),
     display_order INT DEFAULT 0,
     is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Contact messages table
+CREATE TABLE IF NOT EXISTS contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    status ENUM('unread', 'read', 'archived') DEFAULT 'unread',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -145,4 +158,12 @@ INSERT INTO partners (name, title, category, description, logo, website_url, dis
 ('Polygon Labs', 'Ethereum Scaling & Zero-Knowledge Tech', 'Web3 & Blockchain', 'Collaborating on high-throughput, low-latency layer-2 blockchain infrastructure and decentralized identity frameworks.', 'img/partners/polygon.svg', 'https://polygon.technology', 2, 1),
 ('CertiK', 'Security Audits & Threat Intelligence', 'Security & Forensics', 'Strategic security auditor providing real-time smart contract verification, vulnerability assessment, and threat intelligence.', 'img/partners/certik.svg', 'https://certik.com', 3, 1),
 ('NVIDIA Inception', 'AI & Deep Learning Infrastructure', 'AI & Forensics', 'Accelerating AI-driven predictive forensics, machine learning model optimization, and neural processing capabilities.', 'img/partners/nvidia.svg', 'https://nvidia.com', 4, 1),
-('AWS Activate', 'Cloud & Decentralized Node Infrastructure', 'Strategic & Advisory', 'Empowering scalable cloud deployment, enterprise node orchestration, and high-availability server clusters.', 'img/partners/aws.svg', 'https://aws.amazon.com', 5, 1);
+('AWS Activate', 'Cloud & Decentralized Node Infrastructure', 'Strategic & Advisory', 'Empowering scalable cloud deployment, enterprise node orchestration, and high-availability server clusters.', 'img/partners/aws.svg', 'https://aws.amazon.com', 5, 1);
+
+-- Insert sample team members
+INSERT INTO team_members (name, position, bio, image, email, linkedin, twitter, github, display_order, is_active) VALUES
+('Dr. Elena Kaminova', 'Founder & Chief Executive Officer', 'Pioneering cryptographer and decentralized systems architect with 12+ years spearheading blockchain protocols, privacy-preserving computation, and Web3 governance innovation.', 'img/team/elena-kaminova.jpg', 'elena.kaminova@kaminovaglobal.com', 'https://linkedin.com/in/elena-kaminova', 'https://x.com/elenakaminova', 'https://github.com/elena-kaminova', 1, 1),
+('Marcus Chen', 'Chief Technology Officer', 'Distributed systems engineer leading core architectural design, cross-chain interoperability, and high-throughput zero-knowledge infrastructure across Kaminova Labs initiatives.', 'img/team/marcus-chen.jpg', 'marcus.chen@kaminovaglobal.com', 'https://linkedin.com/in/marcus-chen-tech', 'https://x.com/marcuschen_dev', 'https://github.com/marcuschen', 2, 1),
+('Dr. Sophia Williams', 'AI & BioFuture Research Lead', 'Specializing in neuro-symbolic AI models, predictive climate algorithms, and tokenized bio-sustainability ecosystems powering GreenTrust Nexus.', 'img/team/sophia-williams.jpg', 'sophia.williams@kaminovaglobal.com', 'https://linkedin.com/in/sophia-williams-ai', 'https://x.com/sophiaw_ai', 'https://github.com/sophia-williams', 3, 1),
+('David Okon', 'Director of Cybersecurity & Forensics', 'Offensive security veteran and digital forensics specialist orchestrating threat intelligence, smart contract audits, and autonomous security tooling at NodeWhisper.', 'img/team/david-okon.jpg', 'david.okon@kaminovaglobal.com', 'https://linkedin.com/in/david-okon-sec', 'https://x.com/davidokon_sec', 'https://github.com/davidokon', 4, 1);
+

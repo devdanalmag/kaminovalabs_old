@@ -6,19 +6,21 @@ try {
 } catch (Throwable $e) {
     $pdo = null;
 }
-function getSetting($pdo, $key, $default = '')
-{
-    if (!$pdo)
+if (!function_exists('getSetting')) {
+    function getSetting($pdo, $key, $default = '')
+    {
+        if (!$pdo)
+            return $default;
+        try {
+            $stmt = $pdo->prepare("SELECT setting_value AS v FROM site_settings WHERE setting_key = :k LIMIT 1");
+            $stmt->execute([':k' => $key]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '')
+                return $row['v'];
+        } catch (Throwable $e) {
+        }
         return $default;
-    try {
-        $stmt = $pdo->prepare("SELECT setting_value AS v FROM site_settings WHERE setting_key = :k LIMIT 1");
-        $stmt->execute([':k' => $key]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row && isset($row['v']) && $row['v'] !== null && $row['v'] !== '')
-            return $row['v'];
-    } catch (Throwable $e) {
     }
-    return $default;
 }
 $SITE_NAME = getSetting($pdo, 'company_name', 'KAMINOVA LABS');
 $PHONE = getSetting($pdo, 'contact_phone', '+234 xxxxxxxxxx');
@@ -34,6 +36,18 @@ if ($pdo) {
         $partners = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (Throwable $e) {
         $partners = [];
+    }
+}
+
+// Fetch active team members for home page team section
+$team_members = [];
+if ($pdo) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM team_members WHERE is_active = 1 ORDER BY display_order ASC, created_at DESC LIMIT 4");
+        $stmt->execute();
+        $team_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) {
+        $team_members = [];
     }
 }
 ?>
@@ -131,7 +145,7 @@ if ($pdo) {
 
     <!-- Navigation -->
 
-        <?php $currentPage = 'index';
+        <?php $currentPage = 'home';
         include 'includes/header.php'; ?>
 
 
@@ -147,7 +161,7 @@ if ($pdo) {
                 </p>
                 <div class="hero-cta">
                     <a href="#services" class="btn btn-primary">Explore Solutions <i class="fas fa-arrow-right"></i></a>
-                    <a href="#contact" class="btn btn-secondary">Start Your Journey</a>
+                    <a href="contact.php" class="btn btn-secondary">Start Your Journey</a>
                 </div>
             </div>
 
@@ -417,40 +431,79 @@ if ($pdo) {
         </div>
     </div>
 
-    <!-- Team Section
+    <!-- Team Section -->
     <section class="section reveal" id="team">
-        <h2 class="section-title">Our Team</h2>
-        <div class="team-grid">
-            <div class="team-member">
-                <div class="member-img">
-                    <i class="fas fa-user"></i>
-                </div>
-                <h3 class="member-name">Dr. Elena Kaminova</h3>
-                <p class="member-role">Founder & CEO</p>
+        <h2 class="section-title">Leadership & Research Team</h2>
+        <p class="hero-desc" style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">
+            Multidisciplinary innovators pioneering breakthroughs across cryptographic protocols, AI architectures, and offensive cybersecurity.
+        </p>
+
+        <?php if (!empty($team_members)): ?>
+            <div class="team-grid">
+                <?php foreach ($team_members as $member): ?>
+                    <div class="team-card">
+                        <div class="team-card-image-wrap">
+                            <?php if (!empty($member['image'])): ?>
+                                <img src="<?= htmlspecialchars($member['image']) ?>" 
+                                     alt="<?= htmlspecialchars($member['name']) ?>" 
+                                     class="team-card-image"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="team-card-image" style="display: none; background: #061124; align-items: center; justify-content: center; font-size: 3rem; color: var(--electric-blue);">
+                                    <i class="fas fa-user-astronaut"></i>
+                                </div>
+                            <?php else: ?>
+                                <div class="team-card-image" style="display: flex; background: #061124; align-items: center; justify-content: center; font-size: 3rem; color: var(--electric-blue);">
+                                    <i class="fas fa-user-astronaut"></i>
+                                </div>
+                            <?php endif; ?>
+                            <div class="team-image-overlay"></div>
+                        </div>
+
+                        <div class="team-card-body">
+                            <h3 class="team-member-name"><?= htmlspecialchars($member['name']) ?></h3>
+                            <div class="team-member-role"><?= htmlspecialchars($member['position']) ?></div>
+                            
+                            <?php if (!empty($member['bio'])): ?>
+                                <p class="team-member-bio"><?= htmlspecialchars(mb_strimwidth($member['bio'], 0, 140, '...')) ?></p>
+                            <?php endif; ?>
+
+                            <div class="team-card-socials">
+                                <?php if (!empty($member['email'])): ?>
+                                    <a href="mailto:<?= htmlspecialchars($member['email']) ?>" class="team-social-link" title="Email <?= htmlspecialchars($member['name']) ?>">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                <?php endif; ?>
+
+                                <?php if (!empty($member['linkedin'])): ?>
+                                    <a href="<?= htmlspecialchars($member['linkedin']) ?>" target="_blank" rel="noopener noreferrer" class="team-social-link" title="LinkedIn Profile">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                <?php endif; ?>
+
+                                <?php if (!empty($member['twitter'])): ?>
+                                    <a href="<?= htmlspecialchars($member['twitter']) ?>" target="_blank" rel="noopener noreferrer" class="team-social-link" title="X / Twitter Profile">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                <?php endif; ?>
+
+                                <?php if (!empty($member['github'])): ?>
+                                    <a href="<?= htmlspecialchars($member['github']) ?>" target="_blank" rel="noopener noreferrer" class="team-social-link" title="GitHub Profile">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
-            <div class="team-member">
-                <div class="member-img">
-                    <i class="fas fa-user"></i>
-                </div>
-                <h3 class="member-name">Marcus Chen</h3>
-                <p class="member-role">CTO</p>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="team.php" class="btn btn-secondary">
+                    <span>Meet the Full Team</span> <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
-            <div class="team-member">
-                <div class="member-img">
-                    <i class="fas fa-user"></i>
-                </div>
-                <h3 class="member-name">Sophia Williams</h3>
-                <p class="member-role">AI Research Lead</p>
-            </div>
-            <div class="team-member">
-                <div class="member-img">
-                    <i class="fas fa-user"></i>
-                </div>
-                <h3 class="member-name">David Okon</h3>
-                <p class="member-role">Security Director</p>
-            </div>
-        </div>
-    </section> -->
+        <?php endif; ?>
+    </section>
 
     <!-- Ecosystem Partners Section -->
     <section class="section reveal" id="partners">
@@ -569,6 +622,11 @@ if ($pdo) {
             <div class="contact-info-wrapper">
                 <h3>Contact Information</h3>
                 <p class="contact-intro">Join us in building a digital world where innovation creates value for all.</p>
+                <div style="margin-bottom: 25px;">
+                    <a href="contact.php" class="btn btn-secondary w-100" style="padding: 10px 16px; font-size: 0.9rem; text-align: center; justify-content: center;">
+                        <i class="fas fa-satellite-dish"></i> Dedicated Contact & Regional Terminal <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+                    </a>
+                </div>
                 <div class="info-cards">
                     <div class="info-card">
                         <div class="info-icon">
