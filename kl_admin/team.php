@@ -28,6 +28,11 @@ try {
     if (empty($cols)) {
         executeQuery("ALTER TABLE team_members ADD COLUMN github VARCHAR(255) NULL AFTER twitter");
     }
+
+    $deptCol = fetchAll("SHOW COLUMNS FROM team_members LIKE 'department'");
+    if (empty($deptCol)) {
+        executeQuery("ALTER TABLE team_members ADD COLUMN department VARCHAR(100) NULL AFTER position");
+    }
 } catch (Exception $e) {
     // Ignore migration failure if permission/already exists
 }
@@ -39,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'create':
                 $name = trim($_POST['name'] ?? '');
                 $position = trim($_POST['position'] ?? '');
+                $department = trim($_POST['department'] ?? '');
                 $bio = trim($_POST['bio'] ?? '');
                 $email = trim($_POST['email'] ?? '');
                 $linkedin = trim($_POST['linkedin'] ?? '');
@@ -83,6 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     insertRecord('team_members', [
                         'name' => $name,
                         'position' => $position,
+                        'department' => $department,
                         'bio' => $bio,
                         'image' => $image,
                         'email' => $email,
@@ -102,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $id = (int)($_POST['id'] ?? 0);
                 $name = trim($_POST['name'] ?? '');
                 $position = trim($_POST['position'] ?? '');
+                $department = trim($_POST['department'] ?? '');
                 $bio = trim($_POST['bio'] ?? '');
                 $email = trim($_POST['email'] ?? '');
                 $linkedin = trim($_POST['linkedin'] ?? '');
@@ -118,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $update_data = [
                     'name' => $name,
                     'position' => $position,
+                    'department' => $department,
                     'bio' => $bio,
                     'email' => $email,
                     'linkedin' => $linkedin,
@@ -477,7 +486,7 @@ $photo_members = count(array_filter($team_members, fn($m) => !empty($m['image'])
                             <input type="hidden" name="id" value="<?php echo $edit_member['id']; ?>">
                         <?php endif; ?>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
                             <div class="form-group">
                                 <label for="name">Full Name <span style="color: #ff4d4f;">*</span></label>
                                 <input type="text" id="name" name="name" required placeholder="e.g. Dr. Elena Kaminova"
@@ -488,6 +497,20 @@ $photo_members = count(array_filter($team_members, fn($m) => !empty($m['image'])
                                 <label for="position">Position / Role <span style="color: #ff4d4f;">*</span></label>
                                 <input type="text" id="position" name="position" required placeholder="e.g. Chief Executive Officer"
                                        value="<?php echo $edit_member ? htmlspecialchars($edit_member['position']) : ''; ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="department">Department / Category</label>
+                                <input type="text" id="department" name="department" list="dept-suggestions" placeholder="e.g. Leadership, Engineering"
+                                       value="<?php echo $edit_member ? htmlspecialchars($edit_member['department'] ?? '') : ''; ?>">
+                                <datalist id="dept-suggestions">
+                                    <option value="Leadership">
+                                    <option value="Engineering">
+                                    <option value="AI & Research">
+                                    <option value="Cybersecurity">
+                                    <option value="Advisory">
+                                    <option value="Operations">
+                                </datalist>
                             </div>
                         </div>
 
@@ -613,6 +636,9 @@ $photo_members = count(array_filter($team_members, fn($m) => !empty($m['image'])
                                                 <div class="member-meta">
                                                     <strong><?php echo htmlspecialchars($member['name']); ?></strong>
                                                     <span><?php echo htmlspecialchars($member['position']); ?></span>
+                                                    <?php if (!empty($member['department'])): ?>
+                                                        <span style="display: inline-block; margin-top: 3px; font-size: 0.72rem; background: rgba(0, 102, 255, 0.1); color: var(--primary-blue); padding: 1px 7px; border-radius: 4px; font-weight: 600;"><?php echo htmlspecialchars($member['department']); ?></span>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                         </td>

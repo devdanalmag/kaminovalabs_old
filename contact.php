@@ -41,6 +41,31 @@ if ($pdo) {
         $team_members = [];
     }
 }
+
+if (!function_exists('resolveTeamDept')) {
+    function resolveTeamDept($member) {
+        if (!empty($member['department'])) return trim($member['department']);
+        $pos = strtolower($member['position'] ?? '');
+        if (strpos($pos, 'ceo') !== false || strpos($pos, 'chief executive') !== false || strpos($pos, 'founder') !== false || strpos($pos, 'co-founder') !== false || strpos($pos, 'director') !== false || strpos($pos, 'head') !== false) {
+            return 'Leadership';
+        }
+        if (strpos($pos, 'ai') !== false || strpos($pos, 'bio') !== false || strpos($pos, 'research') !== false || strpos($pos, 'scientist') !== false) {
+            return 'AI & Research';
+        }
+        if (strpos($pos, 'security') !== false || strpos($pos, 'cyber') !== false || strpos($pos, 'forensic') !== false || strpos($pos, 'audit') !== false || strpos($pos, 'crypto') !== false) {
+            return 'Cybersecurity';
+        }
+        return 'Engineering';
+    }
+}
+
+$team_departments = [];
+foreach ($team_members as $m) {
+    $d = resolveTeamDept($m);
+    if (!in_array($d, $team_departments)) {
+        $team_departments[] = $d;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,43 +164,26 @@ if ($pdo) {
             position: relative;
         }
 
-        .terminal-header {
+        .contact-form-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 16px;
             padding-bottom: 1.5rem;
             margin-bottom: 2rem;
             border-bottom: 1px solid rgba(0, 212, 255, 0.15);
         }
 
-        .terminal-header-title {
-            font-size: 1.4rem;
-            color: var(--electric-blue);
+        .contact-form-header h2 {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin: 0;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .terminal-status-light {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            color: #20c997;
-            background: rgba(32, 201, 151, 0.1);
-            padding: 5px 12px;
-            border-radius: 50px;
-            border: 1px solid rgba(32, 201, 151, 0.3);
-        }
-
-        .terminal-status-light::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #20c997;
-            box-shadow: 0 0 10px #20c997;
+        .contact-form-header p {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.72);
+            margin: 3px 0 0;
         }
 
         .contact-channels-column {
@@ -265,12 +273,24 @@ if ($pdo) {
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Team Showcase Styles */
+        /* Team Showcase Section */
+        .team-showcase-section {
+            margin: 5rem auto 3.5rem;
+            max-width: 1350px;
+            padding: 0 1.5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .team-section-header {
+            text-align: center;
+            margin-bottom: 2.2rem;
+        }
+
         .team-hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 20px;
+            padding: 8px 22px;
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid rgba(0, 212, 255, 0.3);
             border-radius: 50px;
@@ -280,28 +300,106 @@ if ($pdo) {
             letter-spacing: 1.5px;
             text-transform: uppercase;
             margin-bottom: 1.2rem;
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.18);
         }
 
+        .team-showcase-section .section-title {
+            display: table !important;
+            margin: 0 auto 1.2rem !important;
+            left: 0 !important;
+            transform: none !important;
+            font-size: clamp(2rem, 3.5vw, 2.6rem);
+            text-align: center;
+        }
+
+        .team-section-desc {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.82);
+            max-width: 740px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        /* Filter Tabs */
+        .team-filter-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 2.2rem auto 2.8rem;
+            max-width: 950px;
+        }
+
+        .team-filter-btn {
+            background: rgba(0, 26, 61, 0.55);
+            border: 1px solid rgba(0, 212, 255, 0.22);
+            border-radius: 50px;
+            padding: 9px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .team-filter-btn:hover {
+            color: #ffffff;
+            border-color: rgba(0, 212, 255, 0.55);
+            background: rgba(0, 212, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .team-filter-btn.active {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.35), rgba(0, 212, 255, 0.25));
+            border-color: var(--electric-blue);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .team-filter-btn .filter-count {
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--electric-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+
+        .team-filter-btn.active .filter-count {
+            background: var(--electric-blue);
+            color: #000814;
+        }
+
+        /* Organized Responsive Grid: Fixed Card Proportions */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1300px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+            justify-content: center;
+            gap: 32px;
+            max-width: 1350px;
             margin: 0 auto;
         }
 
         .team-card {
-            background: linear-gradient(145deg, rgba(0, 26, 61, 0.65) 0%, rgba(0, 8, 20, 0.85) 100%);
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            background: linear-gradient(155deg, rgba(0, 26, 61, 0.75) 0%, rgba(0, 10, 24, 0.92) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.22);
             border-radius: 20px;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease, opacity 0.3s ease;
             position: relative;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(14px);
+            width: 100%;
+            max-width: 330px;
+            margin: 0 auto;
         }
 
         .team-card::before {
@@ -314,80 +412,140 @@ if ($pdo) {
             background: linear-gradient(90deg, transparent, var(--electric-blue), transparent);
             opacity: 0;
             transition: opacity 0.4s ease;
+            z-index: 2;
         }
 
         .team-card:hover {
             transform: translateY(-8px);
-            border-color: rgba(0, 212, 255, 0.55);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 212, 255, 0.25);
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), 0 0 30px rgba(0, 212, 255, 0.25);
         }
 
         .team-card:hover::before {
             opacity: 1;
         }
 
+        /* Photo Wrapper - Exact 290px Height to ensure uniform headshots */
         .team-card-image-wrap {
             position: relative;
             width: 100%;
-            padding-top: 100%;
+            height: 290px;
             overflow: hidden;
-            background: #020b18;
+            background: radial-gradient(circle at 50% 35%, #0c2752 0%, #020814 100%);
         }
 
         .team-card-image {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: top center;
             transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: block;
         }
 
         .team-card:hover .team-card-image {
-            transform: scale(1.06);
+            transform: scale(1.05);
+        }
+
+        .team-card-dept-tag {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(0, 12, 30, 0.85);
+            border: 1px solid rgba(0, 212, 255, 0.35);
+            backdrop-filter: blur(8px);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--electric-blue);
+            letter-spacing: 0.5px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .team-card-fallback-avatar {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 40%, #0d3066 0%, #020914 100%);
+        }
+
+        .fallback-avatar-inner {
+            text-align: center;
+            color: var(--electric-blue);
+        }
+
+        .fallback-avatar-inner i {
+            font-size: 3.5rem;
+            margin-bottom: 8px;
+            display: block;
+            opacity: 0.9;
+        }
+
+        .fallback-avatar-inner span {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: rgba(0, 212, 255, 0.15);
+            padding: 3px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
         }
 
         .team-image-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0, 10, 25, 0.95) 0%, rgba(0, 10, 25, 0.2) 50%, transparent 100%);
+            background: linear-gradient(to top, rgba(0, 10, 24, 0.98) 0%, rgba(0, 10, 24, 0.3) 35%, transparent 70%);
             pointer-events: none;
         }
 
         .team-card-body {
-            padding: 1.5rem;
+            padding: 1.4rem 1.5rem;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
         .team-member-name {
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--white);
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
         }
 
         .team-member-role {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--electric-blue);
             font-weight: 600;
-            margin-bottom: 0.9rem;
+            margin-bottom: 0.85rem;
             letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
         .team-member-bio {
-            font-size: 0.88rem;
-            color: rgba(255, 255, 255, 0.75);
-            line-height: 1.6;
-            margin-bottom: 1.4rem;
-            flex-grow: 1;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.72);
+            line-height: 1.55;
+            margin-bottom: 1.2rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 3.9em;
         }
 
         .team-card-socials {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             padding-top: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -414,6 +572,67 @@ if ($pdo) {
             color: #000814;
             transform: translateY(-3px) scale(1.08);
             box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Expanding Team CTA */
+        .team-join-card {
+            background: linear-gradient(135deg, rgba(0, 26, 61, 0.65) 0%, rgba(0, 10, 24, 0.85) 100%);
+            border: 1px dashed rgba(0, 212, 255, 0.35);
+            border-radius: 20px;
+            padding: 2.2rem 2rem;
+            max-width: 1000px;
+            margin: 3.5rem auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .team-join-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--electric-blue);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.4rem;
+        }
+
+        .team-join-content h3 {
+            font-size: 1.35rem;
+            color: var(--white);
+            margin-bottom: 0.35rem;
+        }
+
+        .team-join-content p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin: 0;
+            max-width: 620px;
+            line-height: 1.5;
+        }
+
+        .team-join-btn {
+            flex-shrink: 0;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 820px) {
+            .team-join-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.8rem;
+            }
+            .team-join-content p {
+                margin-bottom: 1rem;
+            }
         }
 
         .contact-faq-section {
@@ -534,11 +753,11 @@ if ($pdo) {
     <!-- Contact Page Hero -->
     <section class="contact-page-hero">
         <div class="contact-hero-badge">
-            <i class="fas fa-satellite-dish"></i> Direct Communications Terminal
+            <i class="fas fa-envelope-open-text"></i> Get In Touch
         </div>
-        <h1 class="hero-title" style="margin-bottom: 1.2rem;">Let's Build The Future Together</h1>
+        <h1 class="hero-title" style="margin-bottom: 1.2rem;">Let's Connect & Collaborate</h1>
         <p class="hero-desc" style="max-width: 820px; margin: 0 auto; font-size: 1.15rem; color: rgba(255, 255, 255, 0.85);">
-            Whether you are exploring transformative blockchain integration, next-generation AI architectures, threat intelligence forensics, or strategic ecosystem advisory, our team is ready to collaborate.
+            Whether you have questions, partnership inquiries, or need technical expertise in blockchain, AI, or cybersecurity, our team is here to help.
         </p>
     </section>
 
@@ -546,31 +765,32 @@ if ($pdo) {
     <section class="contact-page-wrapper">
         <div class="contact-layout-grid">
             
-            <!-- Left Column: Terminal Contact Form -->
+            <!-- Left Column: Contact Form -->
             <div class="contact-terminal-card">
-                <div class="terminal-header">
-                    <div class="terminal-header-title">
-                        <i class="fas fa-terminal"></i> Transmission Portal
+                <div class="contact-form-header">
+                    <div class="channel-icon-box" style="width: 48px; height: 48px; font-size: 1.25rem;">
+                        <i class="fas fa-paper-plane"></i>
                     </div>
-                    <div class="terminal-status-light">
-                        Systems Online &bull; Encrypted
+                    <div>
+                        <h2>Contact Form</h2>
+                        <p>Fill out the form below and our team will get back to you promptly.</p>
                     </div>
                 </div>
 
                 <form id="contactForm" class="contact-form" autocomplete="on">
                     <div class="form-group">
-                        <label for="name"><i class="fas fa-user-circle"></i> Full Name <span style="color: var(--electric-blue);">*</span></label>
-                        <input type="text" id="name" name="name" placeholder="e.g. Dr. Alexander Vance" required>
+                        <label for="name"><i class="fas fa-user"></i> Full Name <span style="color: var(--electric-blue);">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="Your full name" required>
                     </div>
 
                     <div class="form-group">
                         <label for="email"><i class="fas fa-envelope"></i> Email Address <span style="color: var(--electric-blue);">*</span></label>
-                        <input type="email" id="email" name="email" placeholder="e.g. alexander@enterprise.com" required>
+                        <input type="email" id="email" name="email" placeholder="you@domain.com" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="subject"><i class="fas fa-tag"></i> Inquiry Subject / Department <span style="color: var(--electric-blue);">*</span></label>
-                        <input type="text" id="subject" name="subject" list="subject-suggestions" placeholder="Select or type inquiry subject" required>
+                        <label for="subject"><i class="fas fa-tag"></i> Subject <span style="color: var(--electric-blue);">*</span></label>
+                        <input type="text" id="subject" name="subject" list="subject-suggestions" placeholder="Select or type subject" required>
                         <datalist id="subject-suggestions">
                             <option value="Enterprise Blockchain Architecture">
                             <option value="AI & BioFuture Systems Consultation">
@@ -583,12 +803,12 @@ if ($pdo) {
                     </div>
 
                     <div class="form-group">
-                        <label for="message"><i class="fas fa-comment-alt"></i> Message Details <span style="color: var(--electric-blue);">*</span></label>
-                        <textarea id="message" name="message" placeholder="Provide a summary of your inquiry, technical scope, or partnership proposal..." required style="min-height: 160px;"></textarea>
+                        <label for="message"><i class="fas fa-comment-alt"></i> Message <span style="color: var(--electric-blue);">*</span></label>
+                        <textarea id="message" name="message" placeholder="Type your message here..." required style="min-height: 160px;"></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100" style="padding: 14px 28px; font-size: 1.05rem;">
-                        Transmit Message <i class="fas fa-paper-plane" style="margin-left: 8px;"></i>
+                        Send Message <i class="fas fa-paper-plane" style="margin-left: 8px;"></i>
                     </button>
 
                     <div id="formStatus" class="form-status" style="margin-top: 15px;"></div>
@@ -662,33 +882,63 @@ if ($pdo) {
         </div>
 
         <!-- Leadership & Core Team Section -->
-        <div id="team" class="team-showcase-section" style="margin: 4.5rem auto 3.5rem; max-width: 1300px; padding: 0 1rem; scroll-margin-top: 110px;">
-            <div style="text-align: center; margin-bottom: 2.8rem;">
+        <div id="team" class="team-showcase-section">
+            <div class="team-section-header">
                 <span class="team-hero-badge"><i class="fas fa-brain"></i> Multidisciplinary Team</span>
-                <h2 class="section-title" style="font-size: 2.2rem; margin-bottom: 0.8rem;">Meet Our Team</h2>
-                <p style="text-align: center; color: rgba(255, 255, 255, 0.8); max-width: 760px; margin: 0 auto; font-size: 1.05rem;">
+                <h2 class="section-title">Meet Our Team</h2>
+                <p class="team-section-desc">
                     The visionary founders, cryptographers, AI architects, and cybersecurity specialists driving pioneering digital innovations at Kaminova Labs.
                 </p>
             </div>
 
+            <?php if (!empty($team_departments) && count($team_members) > 1): ?>
+                <div class="team-filter-bar">
+                    <button type="button" class="team-filter-btn active" data-filter="all">
+                        <i class="fas fa-th-large"></i> All Members <span class="filter-count"><?= count($team_members) ?></span>
+                    </button>
+                    <?php foreach ($team_departments as $dept): 
+                        $slug = strtolower(preg_replace('/[^a-zA-Z0-9]/', '-', $dept));
+                        $countDept = count(array_filter($team_members, fn($m) => resolveTeamDept($m) === $dept));
+                    ?>
+                        <button type="button" class="team-filter-btn" data-filter="<?= htmlspecialchars($slug) ?>">
+                            <?= htmlspecialchars($dept) ?> <span class="filter-count"><?= $countDept ?></span>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
             <?php if (!empty($team_members)): ?>
                 <div class="team-grid">
-                    <?php foreach ($team_members as $member): ?>
-                        <div class="team-card">
+                    <?php foreach ($team_members as $member): 
+                        $memberDept = resolveTeamDept($member);
+                        $deptSlug = strtolower(preg_replace('/[^a-zA-Z0-9]/', '-', $memberDept));
+                    ?>
+                        <div class="team-card" data-department="<?= htmlspecialchars($deptSlug) ?>">
                             <div class="team-card-image-wrap">
                                 <?php if (!empty($member['image'])): ?>
                                     <img src="<?= htmlspecialchars($member['image']) ?>" 
                                          alt="<?= htmlspecialchars($member['name']) ?>" 
                                          class="team-card-image"
+                                         loading="lazy"
                                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                    <div class="team-card-image" style="display: none; background: #061124; align-items: center; justify-content: center; font-size: 3rem; color: var(--electric-blue);">
-                                        <i class="fas fa-user-astronaut"></i>
+                                    <div class="team-card-fallback-avatar" style="display: none;">
+                                        <div class="fallback-avatar-inner">
+                                            <i class="fas fa-user-astronaut"></i>
+                                            <span><?= htmlspecialchars(mb_strtoupper(mb_substr($member['name'], 0, 2))) ?></span>
+                                        </div>
                                     </div>
                                 <?php else: ?>
-                                    <div class="team-card-image" style="display: flex; background: #061124; align-items: center; justify-content: center; font-size: 3rem; color: var(--electric-blue);">
-                                        <i class="fas fa-user-astronaut"></i>
+                                    <div class="team-card-fallback-avatar" style="display: flex;">
+                                        <div class="fallback-avatar-inner">
+                                            <i class="fas fa-user-astronaut"></i>
+                                            <span><?= htmlspecialchars(mb_strtoupper(mb_substr($member['name'], 0, 2))) ?></span>
+                                        </div>
                                     </div>
                                 <?php endif; ?>
+                                
+                                <span class="team-card-dept-tag">
+                                    <i class="fas fa-layer-group"></i> <?= htmlspecialchars($memberDept) ?>
+                                </span>
                                 <div class="team-image-overlay"></div>
                             </div>
 
@@ -697,7 +947,9 @@ if ($pdo) {
                                 <div class="team-member-role"><?= htmlspecialchars($member['position']) ?></div>
                                 
                                 <?php if (!empty($member['bio'])): ?>
-                                    <p class="team-member-bio"><?= htmlspecialchars($member['bio']) ?></p>
+                                    <p class="team-member-bio" title="<?= htmlspecialchars($member['bio']) ?>">
+                                        <?= htmlspecialchars($member['bio']) ?>
+                                    </p>
                                 <?php endif; ?>
 
                                 <div class="team-card-socials">
@@ -715,7 +967,7 @@ if ($pdo) {
 
                                     <?php if (!empty($member['twitter'])): ?>
                                         <a href="<?= htmlspecialchars($member['twitter']) ?>" target="_blank" rel="noopener noreferrer" class="team-social-link" title="X / Twitter Profile">
-                                            <i class="fab fa-twitter"></i>
+                                            <i class="fab fa-x-twitter"></i>
                                         </a>
                                     <?php endif; ?>
 
@@ -729,8 +981,20 @@ if ($pdo) {
                         </div>
                     <?php endforeach; ?>
                 </div>
+
+                <!-- Expanding Team CTA Card -->
+                <div class="team-join-card">
+                    <div class="team-join-content">
+                        <span class="team-join-badge"><i class="fas fa-sparkles"></i> Expanding Team</span>
+                        <h3>Want to Build High-Impact Technology With Us?</h3>
+                        <p>We are continuously onboarding gifted minds across cryptography, autonomous security, AI bio-sustainability, and protocol engineering.</p>
+                    </div>
+                    <a href="contact.php?subject=Career%20%26%20Fellowship%20Opportunities" class="btn btn-primary team-join-btn">
+                        Join Our Team <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
             <?php else: ?>
-                <div style="text-align: center; padding: 3rem; color: rgba(255, 255, 255, 0.6);">
+                <div style="text-align: center; padding: 4rem 1rem; color: rgba(255, 255, 255, 0.65);">
                     <i class="fas fa-users fa-3x" style="color: var(--electric-blue); opacity: 0.5; margin-bottom: 1rem;"></i>
                     <p>Team roster updating. Please check back shortly.</p>
                 </div>
@@ -747,7 +1011,7 @@ if ($pdo) {
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    You can submit an inquiry via our transmission portal above selecting "Cybersecurity Audit & Threat Intelligence". Please include repository links, architectural documentation, and desired timelines. Our forensics team will provide an initial vulnerability scope and quote within 24 hours.
+                    You can submit an inquiry via our contact form above selecting "Cybersecurity Audit & Threat Intelligence". Please include repository links, architectural documentation, and desired timelines. Our forensics team will provide an initial vulnerability scope and quote within 24 hours.
                 </div>
             </div>
 
@@ -790,6 +1054,34 @@ if ($pdo) {
     <!-- Main scripts -->
     <script src="js/script.js"></script>
     <script>
+        // Interactive Team Department Filter Logic
+        const filterBtns = document.querySelectorAll('.team-filter-btn');
+        const teamCards = document.querySelectorAll('.team-card[data-department]');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const targetFilter = btn.getAttribute('data-filter');
+
+                teamCards.forEach(card => {
+                    const cardDept = card.getAttribute('data-department');
+                    if (targetFilter === 'all' || cardDept === targetFilter) {
+                        card.style.display = 'flex';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(15px)';
+                        setTimeout(() => {
+                            card.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 20);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
         // Interactive FAQ accordion logic
         document.querySelectorAll('.faq-question').forEach(header => {
             header.addEventListener('click', () => {
